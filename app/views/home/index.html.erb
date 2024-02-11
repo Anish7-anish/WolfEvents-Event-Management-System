@@ -3,14 +3,20 @@
 <p>Event Management System</p>
 <% if current_user && current_user.is_admin %>
   Logged in as <%= current_user.name %>.<br>
-  <%= link_to "Attendees", attendees_path %>
+  <%= link_to "All Events", events_path %><br>
+  <%= link_to "All Attendees", attendees_path %><br>
+  <%= link_to "All Event Tickets", event_tickets_path %><br>
+  <%= link_to "All Reviews", reviews_path %><br>
   <%= link_to "Logout", logout_path %>
-<% end %>
-<% if current_user %>
+<% elsif current_user & !current_user.is_admin %>
   Logged in as <%= current_user.name %>.<br>
-  <%= link_to "All Events", events_path %>
+
   <%= link_to "My Event Tickets", event_tickets_path(:attendee_id => current_user.id) %>
   <br>
   <%= link_to "Logout", logout_path %>
+<% else %>
+<%= link_to "Login", login_path %> or
+<%= link_to "Register", signup_path %>
 <% end %>
+
 

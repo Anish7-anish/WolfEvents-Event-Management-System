@@ -1,4 +1,4 @@
-class CreateEventTickets < ActiveRecord::Migration[7.1]
+class CreateEventTickets < ActiveRecord::Migration[6.1]
   def change
     create_table :event_tickets do |t|
       t.references :attendee, null: false, foreign_key: true

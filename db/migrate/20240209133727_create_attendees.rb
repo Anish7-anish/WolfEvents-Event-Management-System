@@ -1,4 +1,4 @@
-class CreateAttendees < ActiveRecord::Migration[7.1]
+class CreateAttendees < ActiveRecord::Migration[6.1]
   def change
     create_table :attendees do |t|
       t.string :email
