@@ -8,7 +8,7 @@
   <%= link_to "All Event Tickets", event_tickets_path %><br>
   <%= link_to "All Reviews", reviews_path %><br>
   <%= link_to "Logout", logout_path %>
-<% elsif current_user & !current_user.is_admin %>
+<% elsif current_user && !current_user.is_admin %>
   Logged in as <%= current_user.name %>.<br>
 
   <%= link_to "My Event Tickets", event_tickets_path(:attendee_id => current_user.id) %>
