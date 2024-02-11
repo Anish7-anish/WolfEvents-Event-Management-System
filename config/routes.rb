@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :transactions
+  resources :credit_cards
+  resources :products
   root 'home#index'
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
