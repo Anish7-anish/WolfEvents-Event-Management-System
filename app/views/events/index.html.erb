@@ -2,15 +2,27 @@
 
 <h1>Events</h1>
 
-<div id="events">
+<table style="border-collapse: collapse; width: 100%;">
+  <thead>
+  <tr>
+    <th style="border: 1px solid black; padding: 8px;">Name</th>
+    <th style="border: 1px solid black; padding: 8px;">Room</th>
+    <th style="border: 1px solid black; padding: 8px;">Category</th>
+    <th style="border: 1px solid black; padding: 8px;">Date</th>
+    <th style="border: 1px solid black; padding: 8px;">Start time</th>
+    <th style="border: 1px solid black; padding: 8px;">End time</th>
+    <th style="border: 1px solid black; padding: 8px;">Ticket price</th>
+    <th style="border: 1px solid black; padding: 8px;">Number of seats left</th>
+    <th style="border: 1px solid black; padding: 8px;">Show</th>
+  </tr>
+  </thead>
+  <tbody>
   <% @events.each do |event| %>
-    <%= render event %>
-    <p>
-      <%= link_to "Show this event", event %>
-    </p>
+    <%= render partial: 'event', locals: { event: event , show_link: true} %>
   <% end %>
-</div>
+  </tbody>
+</table>
 
 <% if current_user.is_admin %>
-<%= link_to "New event", new_event_path %>
+  <%= link_to "New event", new_event_path %>
 <% end %>
