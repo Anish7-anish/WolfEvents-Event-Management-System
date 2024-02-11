@@ -1,6 +1,6 @@
 # Find or create an admin attendee
 admin_attendee = Attendee.find_or_create_by(email: 'admin@example.com') do |attendee|
-  attendee.password_digest = BCrypt::Password.create('password') # Hash the password
+  attendee.password_digest = 'password'
   attendee.name = 'Admin User'
   attendee.phone_number = '123-456-7890'
   attendee.address = '123 Admin St, Admin City'
