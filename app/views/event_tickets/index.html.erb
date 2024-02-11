@@ -1,0 +1,21 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Event tickets</h1>
+<% if @event_tickets %>
+<div id="event_tickets">
+  <% @event_tickets.each do |event_ticket| %>
+    <%= render event_ticket %>
+    <p>
+      <%= link_to "Show this event ticket", event_ticket %>
+    </p>
+  <% end %>
+<% else %>
+  <p>
+    No Tickets as of now
+  </p>
+<% end %>
+</div>
+
+<% if current_user.is_admin %>
+<%= link_to "New event ticket", new_event_ticket_path %>
+<% end %>

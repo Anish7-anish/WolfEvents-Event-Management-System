@@ -10,55 +10,66 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_02_203402) do
+ActiveRecord::Schema.define(version: 2024_02_09_133846) do
 
-  create_table "credit_cards", force: :cascade do |t|
-    t.string "name"
-    t.string "card_number"
-    t.date "expiration_date"
-    t.string "cvv"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "user_id", null: false
-    t.index ["user_id"], name: "index_credit_cards_on_user_id"
-  end
-
-  create_table "products", force: :cascade do |t|
-    t.string "name"
-    t.string "category"
-    t.integer "quantity"
-    t.integer "price"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "transactions", force: :cascade do |t|
-    t.integer "transaction_number"
-    t.integer "quantity"
-    t.decimal "total_cost"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "user_id", null: false
-    t.integer "product_id", null: false
-    t.integer "credit_card_id", null: false
-    t.index ["credit_card_id"], name: "index_transactions_on_credit_card_id"
-    t.index ["product_id"], name: "index_transactions_on_product_id"
-    t.index ["user_id"], name: "index_transactions_on_user_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email_address"
+  create_table "attendees", force: :cascade do |t|
+    t.string "email"
     t.string "password_digest"
-    t.text "address"
+    t.string "name"
     t.string "phone_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.string "address"
+    t.string "credit_card_info"
+    t.boolean "is_admin"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_attendees_on_email", unique: true
   end
 
-  add_foreign_key "credit_cards", "users"
-  add_foreign_key "transactions", "credit_cards"
-  add_foreign_key "transactions", "products"
-  add_foreign_key "transactions", "users"
+  create_table "event_tickets", force: :cascade do |t|
+    t.integer "attendee_id", null: false
+    t.integer "event_id", null: false
+    t.string "confirmation_number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["attendee_id"], name: "index_event_tickets_on_attendee_id"
+    t.index ["event_id"], name: "index_event_tickets_on_event_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.integer "room_id", null: false
+    t.string "category"
+    t.date "date"
+    t.time "start_time"
+    t.time "end_time"
+    t.decimal "ticket_price"
+    t.integer "number_of_seats_left"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["room_id"], name: "index_events_on_room_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer "attendee_id", null: false
+    t.integer "event_id", null: false
+    t.integer "rating"
+    t.text "feedback"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["attendee_id"], name: "index_reviews_on_attendee_id"
+    t.index ["event_id"], name: "index_reviews_on_event_id"
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.string "location"
+    t.integer "capacity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "event_tickets", "attendees"
+  add_foreign_key "event_tickets", "events"
+  add_foreign_key "events", "rooms"
+  add_foreign_key "reviews", "attendees"
+  add_foreign_key "reviews", "events"
 end
