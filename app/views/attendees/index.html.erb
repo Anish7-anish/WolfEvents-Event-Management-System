@@ -17,6 +17,7 @@
   </thead>
   <tbody>
   <% @attendees.each do |attendee| %>
+<<<<<<< HEAD
     <tr>
       <td class="cell-id"><%= attendee.id %></td>
       <td class="cell-email"><%= attendee.email %></td>
@@ -27,6 +28,13 @@
       <td class="cell-is-admin"><%= attendee.is_admin ? 'Yes' : 'No' %></td>
       <td class="cell-actions"><%= link_to "Show this attendee", attendee %></td>
     </tr>
+=======
+    <%= render attendee %>
+    <p>
+      <%= link_to "Show this attendee", attendee %>
+      <
+    </p>
+>>>>>>> f69c9fc0bc2b1090298be021b7dc873b05b15462
   <% end %>
   </tbody>
 </table>

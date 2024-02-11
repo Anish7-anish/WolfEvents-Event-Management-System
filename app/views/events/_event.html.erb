@@ -1,42 +1,56 @@
-<div id="<%= dom_id event %>">
-  <p>
-    <strong>Name:</strong>
-    <%= event.name %>
-  </p>
+<!--<div id="<%#= dom_id event %>">-->
+<!--  <p>-->
+<!--    <strong>Name:</strong>-->
+    <%#= event.name %>
+<!--  </p>-->
 
-  <p>
-    <strong>Room:</strong>
-    <%= event.room_id %>
-  </p>
+<!--  <p>-->
+<!--    <strong>Room:</strong>-->
+    <%#= event.room_id %>
+<!--  </p>-->
 
-  <p>
-    <strong>Category:</strong>
-    <%= event.category %>
-  </p>
+<!--  <p>-->
+<!--    <strong>Category:</strong>-->
+    <%#= event.category %>
+<!--  </p>-->
 
-  <p>
-    <strong>Date:</strong>
-    <%= event.date %>
-  </p>
+<!--  <p>-->
+<!--    <strong>Date:</strong>-->
+    <%#= event.date %>
+<!--  </p>-->
 
-  <p>
-    <strong>Start time:</strong>
-    <%= event.start_time %>
-  </p>
+<!--  <p>-->
+<!--    <strong>Start time:</strong>-->
+    <%#= event.start_time %>
+<!--  </p>-->
 
-  <p>
-    <strong>End time:</strong>
-    <%= event.end_time %>
-  </p>
+<!--  <p>-->
+<!--    <strong>End time:</strong>-->
+    <%#= event.end_time %>
+<!--  </p>-->
 
-  <p>
-    <strong>Ticket price:</strong>
-    <%= event.ticket_price %>
-  </p>
+<!--  <p>-->
+<!--    <strong>Ticket price:</strong>-->
+    <%#= event.ticket_price %>
+<!--  </p>-->
 
-  <p>
-    <strong>Number of seats left:</strong>
-    <%= event.number_of_seats_left %>
-  </p>
+<!--  <p>-->
+<!--    <strong>Number of seats left:</strong>-->
+    <%#= event.number_of_seats_left %>
+<!--  </p>-->
 
-</div>
+<!--</div>-->
+<tr>
+  <td style="border: 1px solid black; padding: 8px;"><%= event.name %></td>
+  <td style="border: 1px solid black; padding: 8px;"><%= event.room_id %></td> <!-- You might want to display the location of the room instead of room_id -->
+  <td style="border: 1px solid black; padding: 8px;"><%= event.category %></td>
+  <td style="border: 1px solid black; padding: 8px;"><%= event.date %></td>
+  <td style="border: 1px solid black; padding: 8px;"><%= event.start_time %></td>
+  <td style="border: 1px solid black; padding: 8px;"><%= event.end_time %></td>
+  <td style="border: 1px solid black; padding: 8px;"><%= event.ticket_price %></td>
+  <td style="border: 1px solid black; padding: 8px;"><%= event.number_of_seats_left %></td>
+  <% unless show_link == false %>
+    <td style="border: 1px solid black; padding: 8px;"><%= link_to "Show", event %></td>
+  <% end %>
+</tr>
+
