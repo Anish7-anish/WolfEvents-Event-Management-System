@@ -1,3 +1,11 @@
+
+# Clear existing data
+Attendee.destroy_all
+EventTicket.destroy_all
+Event.destroy_all
+Review.destroy_all
+Room.destroy_all
+
 # Find or create an admin attendee
 admin_attendee = Attendee.find_or_create_by(email: 'admin@example.com') do |attendee|
   attendee.password_digest = 'password'
@@ -11,34 +19,33 @@ end
 puts "Admin user created successfully." unless admin_attendee.new_record?
 # db/seeds.rb
 
-# Create attendees
-10.times do |i|
-  Attendee.create!(
-    email: "attendee#{i + 1}@example.com",
-    password: "password",
-    name: "Attendee #{i + 1}",
-    phone_number: "123-456-7890",
-    address: "123 Main St, City, State",
-    credit_card_info: "1234 5678 9012 3456",
-    is_admin: i == 0 # First attendee is admin, rest are not
-  )
-end
 
-# Create rooms
-Room.create!(location: "Room A", capacity: 50)
-Room.create!(location: "Room B", capacity: 100)
-Room.create!(location: "Room C", capacity: 75)
+# Seed data for Attendees
+attendees = Attendee.create([
+                              { email: 'john@example.com', password: 'password', name: 'John Doe', phone_number: '123-456-7890', address: '123 Main St', credit_card_info: '1234-5678-9012-3456', is_admin: true },
+                              { email: 'jane@example.com', password: 'password', name: 'Jane Doe', phone_number: '987-654-3210', address: '456 Elm St', credit_card_info: '5678-9012-3456-7890', is_admin: false }
+                            ])
 
-# Create events
-5.times do |i|
-  Event.create!(
-    name: "Event #{i + 1}",
-    room_id: rand(1..3), # Randomly assign room
-    category: ["Workshop", "Conference", "Seminar"].sample,
-    date: Date.today + rand(1..30).days, # Random date within the next month
-    start_time: "#{rand(8..10)}:00", # Random start time between 8 AM and 10 AM
-    end_time: "#{rand(16..20)}:00", # Random end time between 4 PM and 8 PM
-    ticket_price: rand(20..100),
-    number_of_seats_left: rand(10..50)
-  )
-end
+# Seed data for Rooms
+rooms = Room.create([
+                      { location: 'Room A', capacity: 50 },
+                      { location: 'Room B', capacity: 100 }
+                    ])
+
+# Seed data for Events
+events = Event.create([
+                        { name: 'Conference', room: rooms.first, category: 'Business', date: Date.today, start_time: Time.now, end_time: Time.now + 4.hours, ticket_price: 50.00, number_of_seats_left: 50 },
+                        { name: 'Workshop', room: rooms.second, category: 'Education', date: Date.tomorrow, start_time: Time.now, end_time: Time.now + 3.hours, ticket_price: 30.00, number_of_seats_left: 100 }
+                      ])
+
+# Seed data for Event Tickets
+event_tickets = EventTicket.create([
+                                     { attendee: attendees.first, event: events.first, confirmation_number: 'ABC123' },
+                                     { attendee: attendees.second, event: events.second, confirmation_number: 'DEF456' }
+                                   ])
+
+# Seed data for Reviews
+reviews = Review.create([
+                          { attendee: attendees.first, event: events.first, rating: 5, feedback: 'Great event!' },
+                          { attendee: attendees.second, event: events.second, rating: 4, feedback: 'Enjoyed it.' }
+                        ])

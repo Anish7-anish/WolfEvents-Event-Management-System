@@ -62,3 +62,17 @@
 .eventTicket-table th {
     background-color: #f8f9fa; /* Optional: Sets a background color for header */
 }
+
+.review-table-admin {
+    width: 100%;
+    border-collapse: collapse; /* Collapses the border */
+}
+
+.review-table-admin th, .review-table-admin td {
+    border: 1px solid #dee2e6; /* Sets the border color and width */
+    padding: 8px; /* Adds some padding for content */
+}
+
+.review-table-admin th {
+    background-color: #f8f9fa; /* Optional: Sets a background color for header */
+}

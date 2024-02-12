@@ -2,13 +2,41 @@
 
 <h1>Reviews</h1>
 
-<div id="reviews">
+<table class="review-table-admin">
+  <thead>
+  <tr>
+    <th>Review ID</th>
+    <th>Attendee Name</th>
+    <th>Event Name</th>
+    <th>Rating</th>
+    <th>Feedback</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
   <% @reviews.each do |review| %>
-    <%= render review %>
-    <p>
-      <%= link_to "Show this review", review %>
-    </p>
+    <tr>
+      <td><%= review.id %></td>
+      <td><%= review.attendee.name %></td> <!-- Assuming review belongs_to :attendee -->
+      <td><%= review.event.name %></td> <!-- Assuming review belongs_to :event -->
+      <td><%= review.rating %></td>
+      <td><%= review.feedback %></td>
+      <td>
+        <%= link_to "Show this review", review %>
+      </td>
+    </tr>
   <% end %>
-</div>
+  </tbody>
+</table>
+
+
+<!--<div id="reviews">-->
+  <%# @reviews.each do |review| %>
+    <%#= render review %>
+<!--    <p>-->
+      <%#= link_to "Show this review", review %>
+<!--    </p>-->
+  <%# end %>
+<!--</div>-->
 
 <%= link_to "New review", new_review_path %>

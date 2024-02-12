@@ -42,7 +42,7 @@
 <!--</div>-->
 <tr>
   <td style="border: 1px solid black; padding: 8px;"><%= event.name %></td>
-  <td style="border: 1px solid black; padding: 8px;"><%= event.room_id %></td> <!-- You might want to display the location of the room instead of room_id -->
+  <td style="border: 1px solid black; padding: 8px;"><%= event.room&.location || "No room assigned" %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.category %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.date %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.start_time %></td>
