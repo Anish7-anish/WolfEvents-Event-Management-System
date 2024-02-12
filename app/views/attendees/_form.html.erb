@@ -22,17 +22,9 @@
       <%= form.password_field :password %>
     </div>
 
-    <div>
-      <%= form.label :is_admin, style: "display: block" %>
-      <%= form.check_box :is_admin %>
-    </div>
   <% else %>
     <div>
       <strong>Email:</strong> <%= attendee.email %>
-    </div>
-
-    <div>
-      <strong>Is Admin:</strong> <%= attendee.is_admin ? 'Yes' : 'No' %>
     </div>
   <% end %>
 

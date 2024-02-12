@@ -2,13 +2,35 @@
 
 <h1>Event tickets</h1>
 <% if @event_tickets %>
-<div id="event_tickets">
-  <% @event_tickets.each do |event_ticket| %>
-    <%= render event_ticket %>
-    <p>
-      <%= link_to "Show this event ticket", event_ticket %>
-    </p>
-  <% end %>
+  <table class="eventTicket-table">
+    <thead>
+    <tr>
+      <th>Attendee ID</th>
+      <th>Event ID</th>
+      <th>Confirmation Number</th>
+      <th colspan="3">Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @event_tickets.each do |event_ticket| %>
+      <tr>
+        <td><%= event_ticket.attendee_id %></td>
+        <td><%= event_ticket.event_id %></td>
+        <td><%= event_ticket.confirmation_number %></td>
+        <td><%= link_to "Show this event ticket", event_ticket %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+<!--  <div id="event_tickets">-->
+  <%# @event_tickets.each do |event_ticket| %>
+    <%#= render event_ticket %>
+<!--    <p>-->
+      <%#= link_to "Show this event ticket", event_ticket %>
+<!--    </p>-->
+  <%# end %>
 <% else %>
   <p>
     No Tickets as of now

@@ -8,13 +8,11 @@ class AttendeesController < ApplicationController
 
   # GET /attendees/1 or /attendees/1.json
   def show
-
   end
 
   # GET /attendees/new
   def new
     @attendee = Attendee.new
-    binding.pry
   end
 
   
