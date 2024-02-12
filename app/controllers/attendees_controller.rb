@@ -14,7 +14,10 @@ class AttendeesController < ApplicationController
   # GET /attendees/new
   def new
     @attendee = Attendee.new
+    binding.pry
   end
+
+  
 
   # GET /attendees/1/edit
   def edit

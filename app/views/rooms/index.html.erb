@@ -2,13 +2,19 @@
 
 <h1>Rooms</h1>
 
-<div id="rooms">
+<table style="border-collapse: collapse; width: 100%;">
+  <thead>
+  <tr>
+    <th style="border: 1px solid black; padding: 8px;">Location</th>
+    <th style="border: 1px solid black; padding: 8px;">Capacity</th>
+    <th style="border: 1px solid black; padding: 8px;">Room</th>
+  </tr>
+  </thead>
+  <tbody>
   <% @rooms.each do |room| %>
     <%= render room %>
-    <p>
-      <%= link_to "Show this room", room %>
-    </p>
   <% end %>
-</div>
+  </tbody>
+</table>
 
 <%= link_to "New room", new_room_path %>
