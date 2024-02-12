@@ -4,6 +4,22 @@ class RoomsController < ApplicationController
   # GET /rooms or /rooms.json
   def index
     @rooms = Room.all
+
+    if params[:desired_start_time].present? && params[:desired_end_time].present?
+      desired_start_time = DateTime.parse(params[:desired_start_time])
+      desired_end_time = DateTime.parse(params[:desired_end_time])
+    else
+      # Default values if desired start and end times are not provided
+      desired_start_time = Time.now
+      desired_end_time = Time.now + 1.hour
+    end
+
+    # Pass the variables to the view
+    @desired_start_time = desired_start_time
+    @desired_end_time = desired_end_time
+
+    # Retrieve available rooms based on the desired time slot
+    @available_rooms = Room.available_rooms(desired_start_time, desired_end_time)
   end
 
   # GET /rooms/1 or /rooms/1.json
@@ -58,13 +74,13 @@ class RoomsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_room
-      @room = Room.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_room
+    @room = Room.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def room_params
-      params.require(:room).permit(:location, :capacity)
-    end
+  # Only allow a list of trusted parameters through.
+  def room_params
+    params.require(:room).permit(:location, :capacity)
+  end
 end

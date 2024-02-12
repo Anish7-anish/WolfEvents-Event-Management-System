@@ -1,17 +1,35 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Rooms</h1>
+<h1>Filter Available Rooms</h1>
+
+<%= form_with(url: rooms_path, method: "get") do |form| %>
+  <div>
+    <%= form.label :desired_start_time, "Desired Start Time" %>
+    <%= form.datetime_field :desired_start_time %>
+  </div>
+
+  <div>
+    <%= form.label :desired_end_time, "Desired End Time" %>
+    <%= form.datetime_field :desired_end_time %>
+  </div>
+
+  <%= form.submit "Filter" %>
+<% end %>
+
+<hr>
+
+<h1>Available Rooms</h1>
 
 <table style="border-collapse: collapse; width: 100%;">
   <thead>
   <tr>
     <th style="border: 1px solid black; padding: 8px;">Location</th>
     <th style="border: 1px solid black; padding: 8px;">Capacity</th>
-    <th style="border: 1px solid black; padding: 8px;">Room</th>
+    <th style="border: 1px solid black; padding: 8px;">Actions</th>
   </tr>
   </thead>
   <tbody>
-  <% @rooms.each do |room| %>
+  <% @available_rooms.each do |room| %>
     <%= render room %>
   <% end %>
   </tbody>
