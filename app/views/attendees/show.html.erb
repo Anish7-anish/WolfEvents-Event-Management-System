@@ -6,7 +6,10 @@
   <%= link_to "Edit this attendee", edit_attendee_path(@attendee) %> |
   <%= link_to "Back to attendees", attendees_path %>
 
+  <%= button_to "Destroy this attendee", @attendee, method: :delete, data: { confirm: 'Are you sure?' } %>
+
   <% if !@attendee.is_admin %>
   <%= button_to "Destroy this attendee", @attendee, method: :delete %>
   <% end %>
+
 </div>
