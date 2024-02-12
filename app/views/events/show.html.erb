@@ -1,10 +1,25 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @event %>
+<table style="border-collapse: collapse; width: 100%;">
+  <thead>
+  <tr>
+    <th style="border: 1px solid black; padding: 8px;">Name</th>
+    <th style="border: 1px solid black; padding: 8px;">Room</th>
+    <th style="border: 1px solid black; padding: 8px;">Category</th>
+    <th style="border: 1px solid black; padding: 8px;">Date</th>
+    <th style="border: 1px solid black; padding: 8px;">Start time</th>
+    <th style="border: 1px solid black; padding: 8px;">End time</th>
+    <th style="border: 1px solid black; padding: 8px;">Ticket price</th>
+    <th style="border: 1px solid black; padding: 8px;">Number of seats left</th>
+  </tr>
+  </thead>
+  <tbody>
+  <%= render partial: 'event', locals: { event: @event, show_link: false } %>
+  </tbody>
+</table>
 
 <div>
   <%= link_to "Edit this event", edit_event_path(@event) %> |
   <%= link_to "Back to events", events_path %>
-
   <%= button_to "Destroy this event", @event, method: :delete %>
 </div>

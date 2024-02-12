@@ -13,3 +13,38 @@
  *= require_tree .
  *= require_self
  */
+.table-bordered {
+    width: 100%;
+    border-collapse: collapse; /* Collapses the border */
+}
+
+.table-bordered th, .table-bordered td {
+    border: 1px solid #dee2e6; /* Sets the border color and width */
+    padding: 8px; /* Adds some padding for content */
+}
+
+.table-bordered th {
+    background-color: #f8f9fa; /* Optional: Sets a background color for header */
+}
+
+.cell-id { width: 100px; }
+.cell-email { width: 100px; }
+.cell-name { width: 100px; }
+.cell-phone { width: 100px; }
+.cell-address { width: 100px; }
+.cell-credit-info { width: 100px; }
+.cell-is-admin { width: 100px; }
+.cell-actions { width: 100px; }
+
+.show-attendee-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.show-attendee-table, .show-attendee-table td {
+    border: 1px solid #dee2e6;
+}
+
+.show-attendee-table td {
+    padding: 8px;
+}

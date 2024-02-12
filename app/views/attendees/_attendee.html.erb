@@ -1,34 +1,28 @@
-<div id="<%= dom_id attendee %>">
-  <p>
-    <strong>Email:</strong>
-    <%= attendee.email %>
-  </p>
-
-
-
-  <p>
-    <strong>Name:</strong>
-    <%= attendee.name %>
-  </p>
-
-  <p>
-    <strong>Phone number:</strong>
-    <%= attendee.phone_number %>
-  </p>
-
-  <p>
-    <strong>Address:</strong>
-    <%= attendee.address %>
-  </p>
-
-  <p>
-    <strong>Credit card info:</strong>
-    <%= attendee.credit_card_info %>
-  </p>
-
-  <p>
-    <strong>Is admin:</strong>
-    <%= attendee.is_admin %>
-  </p>
-
-</div>
+<table class="show-attendee-table" id="<%= dom_id(attendee) %>">
+  <tbody>
+  <tr>
+    <td><strong>Email:</strong></td>
+    <td><%= attendee.email %></td>
+  </tr>
+  <tr>
+    <td><strong>Name:</strong></td>
+    <td><%= attendee.name %></td>
+  </tr>
+  <tr>
+    <td><strong>Phone number:</strong></td>
+    <td><%= attendee.phone_number %></td>
+  </tr>
+  <tr>
+    <td><strong>Address:</strong></td>
+    <td><%= attendee.address %></td>
+  </tr>
+  <tr>
+    <td><strong>Credit card info:</strong></td>
+    <td><%= attendee.credit_card_info %></td>
+  </tr>
+  <tr>
+    <td><strong>Is admin:</strong></td>
+    <td><%= attendee.is_admin ? 'Yes' : 'No' %></td>
+  </tr>
+  </tbody>
+</table>
