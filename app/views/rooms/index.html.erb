@@ -4,13 +4,18 @@
 
 <%= form_with(url: rooms_path, method: "get") do |form| %>
   <div>
-    <%= form.label :desired_start_time, "Desired Start Time" %>
-    <%= form.datetime_field :desired_start_time %>
+    <%= form.label :date, "Desired Date" %>
+    <%= form.date_field :date %>
   </div>
 
   <div>
-    <%= form.label :desired_end_time, "Desired End Time" %>
-    <%= form.datetime_field :desired_end_time %>
+    <%= form.label :start_time, "Desired Start Time" %>
+    <%= form.time_field :start_time %>
+  </div>
+
+  <div>
+    <%= form.label :end_time, "Desired End Time" %>
+    <%= form.time_field :end_time %>
   </div>
 
   <%= form.submit "Filter" %>
@@ -36,3 +41,5 @@
 </table>
 
 <%= link_to "New room", new_room_path %>
+<br>
+<%= link_to "Back", root_path %>
