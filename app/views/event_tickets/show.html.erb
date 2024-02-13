@@ -4,7 +4,12 @@
 
 <div>
   <%= link_to "Edit this event ticket", edit_event_ticket_path(@event_ticket) %> |
-  <%= link_to "Back to event tickets", event_tickets_path %>
+
+  <% if current_user && current_user.is_admin %>
+    <%= link_to "Back to event tickets", event_tickets_path %>
+  <% else %>
+    <%= link_to "Back to event tickets", event_tickets_path(attendee_id: current_user.id) %>
+  <% end %>
 
   <%= button_to "Destroy this event ticket", @event_ticket, method: :delete %>
 </div>

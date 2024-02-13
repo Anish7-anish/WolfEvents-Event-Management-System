@@ -8,7 +8,7 @@ class EventTicketsController < ApplicationController
     puts "hello"
     puts attendee_param
     if attendee_param
-      @event_tickets =  EventTicket.find_by_attendee_id(attendee_param)
+      @event_tickets = EventTicket.where(attendee_id: attendee_param)
     end
 
   end
@@ -16,6 +16,7 @@ class EventTicketsController < ApplicationController
   # GET /event_tickets/1 or /event_tickets/1.json
   def show
   end
+
 
   # GET /event_tickets/new
   def new
