@@ -15,8 +15,8 @@
     <tbody>
     <% @event_tickets.each do |event_ticket| %>
       <tr>
-        <td><%= event_ticket.attendee_id %></td>
-        <td><%= event_ticket.event_id %></td>
+        <td><%= event_ticket.attendee_name %></td>
+        <td><%= event_ticket.event_name %></td>
         <td><%= event_ticket.confirmation_number %></td>
         <td><%= link_to "Show this event ticket", event_ticket %></td>
       </tr>

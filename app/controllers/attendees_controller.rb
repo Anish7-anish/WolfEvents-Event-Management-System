@@ -27,7 +27,7 @@ class AttendeesController < ApplicationController
 
     respond_to do |format|
       if @attendee.save
-        format.html { redirect_to attendee_url(@attendee), notice: "Attendee was successfully created." }
+        format.html { redirect_to root_path, notice: "Attendee was successfully created." }
         format.json { render :show, status: :created, location: @attendee }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -67,6 +67,6 @@ class AttendeesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def attendee_params
-      params.require(:attendee).permit(:email, :password_digest, :name, :phone_number, :address, :credit_card_info, :is_admin)
+      params.require(:attendee).permit(:email, :password, :name, :phone_number, :address, :credit_card_info, :is_admin)
     end
 end
