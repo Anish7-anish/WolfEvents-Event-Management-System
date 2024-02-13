@@ -4,6 +4,14 @@ class ReviewsController < ApplicationController
   # GET /reviews or /reviews.json
   def index
     @reviews = Review.all
+
+    if params[:attendee_name].present?
+      @reviews = @reviews.joins(:attendee).where("attendees.name LIKE ?", "%#{params[:attendee_name]}%")
+    end
+
+    if params[:event_id].present?
+      @reviews = @reviews.joins(:event).where(events: { id: params[:event_id] })
+    end
   end
 
   # GET /reviews/1 or /reviews/1.json

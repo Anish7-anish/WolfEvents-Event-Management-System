@@ -3,6 +3,7 @@
 <table style="border-collapse: collapse; width: 100%;">
   <thead>
   <tr>
+    <th style="border: 1px solid black; padding: 8px;">ID</th>
     <th style="border: 1px solid black; padding: 8px;">Name</th>
     <th style="border: 1px solid black; padding: 8px;">Room</th>
     <th style="border: 1px solid black; padding: 8px;">Category</th>
@@ -13,8 +14,22 @@
     <th style="border: 1px solid black; padding: 8px;">Number of seats left</th>
   </tr>
   </thead>
+<!--  <tbody>-->
+  <%#= render partial: 'event', locals: { event: @event, show_link: false } %>
+<!--  </tbody>-->
+
   <tbody>
-  <%= render partial: 'event', locals: { event: @event, show_link: false } %>
+  <tr>
+    <td style="border: 1px solid black; padding: 8px;"><%= @event.id %></td>
+    <td style="border: 1px solid black; padding: 8px;"><%= @event.name %></td>
+    <td style="border: 1px solid black; padding: 8px;"><%= @event.room&.location || "No room assigned" %></td>
+    <td style="border: 1px solid black; padding: 8px;"><%= @event.category %></td>
+    <td style="border: 1px solid black; padding: 8px;"><%= @event.date %></td>
+    <td style="border: 1px solid black; padding: 8px;"><%= @event.start_time %></td>
+    <td style="border: 1px solid black; padding: 8px;"><%= @event.end_time %></td>
+    <td style="border: 1px solid black; padding: 8px;"><%= @event.ticket_price %></td>
+    <td style="border: 1px solid black; padding: 8px;"><%= @event.number_of_seats_left %></td>
+  </tr>
   </tbody>
 </table>
 

@@ -10,10 +10,11 @@
   <td style="border: 1px solid black; padding: 8px;"><%= event.number_of_seats_left %></td>
 
   <% if current_user %>
-    <td style="border: 1px solid black; padding: 8px;"><%= link_to "Book", event_tickets_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }), method: :post %></td>
-  <% else %>
-    <% unless show_link == false %>
-      <td style="border: 1px solid black; padding: 8px;"><%= link_to "Show", event %></td>
-    <% end %>
+    <td style="border: 1px solid black; padding: 8px;">
+      <%= link_to "Show", event %><br>
+      <% if current_user.is_admin %>
+        <%= link_to "Book", event_tickets_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }), method: :post %>
+      <% end %>
+    </td>
   <% end %>
 </tr>
