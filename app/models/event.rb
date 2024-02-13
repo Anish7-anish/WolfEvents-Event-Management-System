@@ -5,7 +5,7 @@ class Event < ApplicationRecord
 
   validate :check_room_availability
 
-  private
+
 
   def check_room_availability
     if room_id && overlaps_with_other_events?
@@ -22,4 +22,18 @@ class Event < ApplicationRecord
 
     overlapping_events.exists?
   end
+
+  def decrease_seats_left
+    self.number_of_seats_left -= 1
+    save
+  end
+
+  def increase_seats_left
+    self.number_of_seats_left += 1
+    save
+  end
+
+  scope :upcoming, -> { where('date >= ?', Date.today) }
+  scope :not_sold_out, -> { where('number_of_seats_left > 0') }
+
 end

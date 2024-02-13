@@ -8,7 +8,7 @@ Room.destroy_all
 
 # Find or create an admin attendee
 admin_attendee = Attendee.find_or_create_by(email: 'admin@example.com') do |attendee|
-  attendee.password_digest = 'password'
+  attendee.password_digest = BCrypt::Password.create('password')
   attendee.name = 'Admin User'
   attendee.phone_number = '123-456-7890'
   attendee.address = '123 Admin St, Admin City'
@@ -22,8 +22,8 @@ puts "Admin user created successfully." unless admin_attendee.new_record?
 
 # Seed data for Attendees
 attendees = Attendee.create([
-                              { email: 'john@example.com', password: 'password', name: 'John Doe', phone_number: '123-456-7890', address: '123 Main St', credit_card_info: '1234-5678-9012-3456', is_admin: true },
-                              { email: 'jane@example.com', password: 'password', name: 'Jane Doe', phone_number: '987-654-3210', address: '456 Elm St', credit_card_info: '5678-9012-3456-7890', is_admin: false }
+                              { email: 'john@example.com', password_digest: BCrypt::Password.create('password'), name: 'John Doe', phone_number: '123-456-7890', address: '123 Main St', credit_card_info: '1234-5678-9012-3456', is_admin: false },
+                              { email: 'jane@example.com', password_digest: BCrypt::Password.create('password') , name: 'Jane Doe', phone_number: '987-654-3210', address: '456 Elm St', credit_card_info: '5678-9012-3456-7890', is_admin: false }
                             ])
 
 # Seed data for Rooms

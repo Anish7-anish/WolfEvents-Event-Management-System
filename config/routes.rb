@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
+
   resources :events
   resources :event_tickets
   resources :rooms
   resources :reviews
+  resources :booking_histories
   root 'home#index'
   resources :attendees
   resources :sessions, only: [:new, :create, :destroy]

@@ -6,10 +6,20 @@
   <%= link_to "Edit this event ticket", edit_event_ticket_path(@event_ticket) %> |
 
   <% if current_user && current_user.is_admin %>
-    <%= link_to "Back to event tickets", event_tickets_path %>
-  <% else %>
-    <%= link_to "Back to event tickets", event_tickets_path(attendee_id: current_user.id) %>
+    <%= link_to "Back to all events", events_path %> |
+    <%= link_to "Booking History", event_tickets_path(:attendee_id => current_user.id) %>
+
+<% else %>
+    <%= link_to "Back to all events", events_path %> |
+    <%= link_to "Booking History", event_tickets_path(:attendee_id => current_user.id) %>
   <% end %>
 
-  <%= button_to "Destroy this event ticket", @event_ticket, method: :delete %>
+  <% if current_user && current_user.is_admin %>
+    <%= button_to "Destroy this event ticket", @event_ticket, method: :delete %>
+  <%else %>
+    <%= button_to "Cancel this event ticket", @event_ticket, method: :delete %>
+  <%end %>
+
 </div>
+
+

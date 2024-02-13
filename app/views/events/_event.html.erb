@@ -1,46 +1,5 @@
-<!--<div id="<%#= dom_id event %>">-->
-<!--  <p>-->
-<!--    <strong>Name:</strong>-->
-    <%#= event.name %>
-<!--  </p>-->
-
-<!--  <p>-->
-<!--    <strong>Room:</strong>-->
-    <%#= event.room_id %>
-<!--  </p>-->
-
-<!--  <p>-->
-<!--    <strong>Category:</strong>-->
-    <%#= event.category %>
-<!--  </p>-->
-
-<!--  <p>-->
-<!--    <strong>Date:</strong>-->
-    <%#= event.date %>
-<!--  </p>-->
-
-<!--  <p>-->
-<!--    <strong>Start time:</strong>-->
-    <%#= event.start_time %>
-<!--  </p>-->
-
-<!--  <p>-->
-<!--    <strong>End time:</strong>-->
-    <%#= event.end_time %>
-<!--  </p>-->
-
-<!--  <p>-->
-<!--    <strong>Ticket price:</strong>-->
-    <%#= event.ticket_price %>
-<!--  </p>-->
-
-<!--  <p>-->
-<!--    <strong>Number of seats left:</strong>-->
-    <%#= event.number_of_seats_left %>
-<!--  </p>-->
-
-<!--</div>-->
 <tr>
+  <td style="border: 1px solid black; padding: 8px;"><%= event.id %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.name %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.room&.location || "No room assigned" %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.category %></td>
@@ -49,8 +8,12 @@
   <td style="border: 1px solid black; padding: 8px;"><%= event.end_time %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.ticket_price %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.number_of_seats_left %></td>
-  <% unless show_link == false %>
-    <td style="border: 1px solid black; padding: 8px;"><%= link_to "Show", event %></td>
+
+  <% if current_user %>
+    <td style="border: 1px solid black; padding: 8px;"><%= link_to "Book", event_tickets_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }), method: :post %></td>
+  <% else %>
+    <% unless show_link == false %>
+      <td style="border: 1px solid black; padding: 8px;"><%= link_to "Show", event %></td>
+    <% end %>
   <% end %>
 </tr>
-

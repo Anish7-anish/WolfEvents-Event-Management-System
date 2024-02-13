@@ -2,27 +2,23 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :require_admin, except: [:index, :show]
 
-  # GET /events or /events.json
   def index
-    @events = Event.all
+    @events = Event.upcoming.not_sold_out
+    filter_events
   end
 
-  # GET /events/1 or /events/1.json
   def show
   end
 
-  # GET /events/new
   def new
     @event = Event.new
     @rooms = Room.all
   end
 
-  # GET /events/1/edit
   def edit
     @rooms = Room.all
   end
 
-  # POST /events or /events.json
   def create
     @event = Event.new(event_params)
 
@@ -37,7 +33,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /events/1 or /events/1.json
   def update
     respond_to do |format|
       if @event.update(event_params)
@@ -50,7 +45,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # DELETE /events/1 or /events/1.json
   def destroy
     @event.destroy
     respond_to do |format|
@@ -61,18 +55,29 @@ class EventsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_event
     @event = Event.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def event_params
     params.require(:event).permit(:name, :room_id, :category, :date, :start_time, :end_time, :ticket_price, :number_of_seats_left)
   end
 
-  # Require admin for certain actions
   def require_admin
     redirect_to root_path, alert: "You don't have permission to access this page." unless current_user && current_user.is_admin
+  end
+
+  def filter_events
+    @events = @events.where(category: params[:category]) if params[:category].present?
+    @events = @events.where(date: params[:date]) if params[:date].present?
+    if params[:min_price].present? && params[:max_price].present?
+      @events = @events.where(ticket_price: params[:min_price]..params[:max_price])
+    end
+    @events = @events.where("name LIKE ?", "%#{params[:search]}%") if params[:search].present?
+  end
+
+  def book
+    @event = Event.find(params[:id])
+    # Logic for booking the event...
   end
 end

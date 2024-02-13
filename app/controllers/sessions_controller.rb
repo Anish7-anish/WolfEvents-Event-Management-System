@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
 
   def create
     user = Attendee.find_by_email(params[:email_address])
-    if user && user[:password_digest]==params[:password]
+    if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       redirect_to root_url
     else
