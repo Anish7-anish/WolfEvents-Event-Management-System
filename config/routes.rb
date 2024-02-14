@@ -12,5 +12,6 @@ Rails.application.routes.draw do
   post 'signup', to: 'attendees#create', as: 'Register'
   get 'login', to: "sessions#new", as: 'login'
   get 'logout', to: "sessions#destroy", as: 'logout'
+  delete 'account', to: 'attendees#destroy', as: 'delete_account'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

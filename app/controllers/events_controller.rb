@@ -19,19 +19,44 @@ class EventsController < ApplicationController
     @rooms = Room.all
   end
 
+  # def create
+  #   # Format start_time if it's not nil
+  #   if event_params[:start_time].present?
+  #     @event.start_time = @event.start_time.strftime("%H:%M:%S")
+  #     @event.start_time = DateTime.parse(@event.start_time)
+  #   end
+  #
+  #   # Format end_time if it's not nil
+  #   if event_params[:end_time].present?
+  #     @event.end_time = @event.end_time.strftime("%H:%M:%S")
+  #     @event.end_time = DateTime.parse(@event.end_time)
+  #   end
+  #
+  #   @event = Event.new(event_params)
+  #
+  #   # Debugging
+  #   puts @event
+  #   respond_to do |format|
+  #     if @event.save
+  #       format.html { redirect_to @event, notice: "Event was successfully created." }
+  #       format.json { render :show, status: :created, location: @event }
+  #     else
+  #       format.html { render :new, status: :unprocessable_entity }
+  #       format.json { render json: @event.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
+
   def create
     @event = Event.new(event_params)
 
-    respond_to do |format|
-      if @event.save
-        format.html { redirect_to @event, notice: "Event was successfully created." }
-        format.json { render :show, status: :created, location: @event }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
+    if @event.save
+      redirect_to @event, notice: 'Event was successfully created.'
+    else
+      render :new
     end
   end
+
 
   def update
     respond_to do |format|

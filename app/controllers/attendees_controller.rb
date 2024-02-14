@@ -51,11 +51,21 @@ class AttendeesController < ApplicationController
 
   # DELETE /attendees/1 or /attendees/1.json
   def destroy
-    @attendee.destroy!
+    EventTicket.where("attendee_id=?", @attendee.id ).limit(5000).delete_all
+    Review.where("attendee_id=?", @attendee.id ).limit(5000).delete_all
 
-    respond_to do |format|
-      format.html { redirect_to attendees_url, notice: "Attendee was successfully destroyed." }
-      format.json { head :no_content }
+    Attendee.delete(@attendee.id)
+    session[:user_id] = nil
+    if current_user && current_user.is_admin
+      respond_to do |format|
+        format.html { redirect_to attendees_url, notice: "Attendee was successfully destroyed." }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: "Account deleted successfully." }
+        format.json { head :no_content }
+      end
     end
   end
 

@@ -17,9 +17,10 @@
   </div>
 
   <div>
-    <%= form.label :room_id, style: "display: block" %>
-    <%= form.text_field :room_id %>
+    <%= form.label :room_id, "Room" %>
+    <%= form.collection_select :room_id, Room.all, :id, :location, { prompt: "Select a room" }, { class: "form-control" } %>
   </div>
+
 
   <div>
     <%= form.label :category, style: "display: block" %>
@@ -32,14 +33,15 @@
   </div>
 
   <div>
-    <%= form.label :desired_start_time, "Start Time", style: "display: block" %>
-    <%= form.time_field :desired_start_time %>
+    <%= form.label :start_time, "Start Time", style: "display: block" %>
+    <%= form.time_select :start_time, {}, {class: "form-control"} %>
   </div>
 
   <div>
-    <%= form.label :desired_end_time, "End Time", style: "display: block" %>
-    <%= form.time_field :desired_end_time %>
+    <%= form.label :end_time, "End Time", style: "display: block" %>
+    <%= form.time_select :end_time, {}, {class: "form-control"} %>
   </div>
+
 
   <div>
     <%= form.label :ticket_price, style: "display: block" %>
@@ -50,6 +52,7 @@
     <%= form.label :number_of_seats_left, style: "display: block" %>
     <%= form.number_field :number_of_seats_left %>
   </div>
+  <br>
 
   <div>
     <%= form.submit %>
