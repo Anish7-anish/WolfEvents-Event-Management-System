@@ -14,7 +14,12 @@
   Logged in as <%= current_user.name %>.<br>
   <%= link_to "All Events", events_path %><br>
   <%= link_to "Booking History", event_tickets_path(:attendee_id => current_user.id) %><br>
-  <%= link_to "Delete Account", attendee_path(current_user), method: :delete, data: { confirm: "Are you sure you want to delete your account?" } %>
+<<<<<<< HEAD
+
+=======
+  <%= link_to "Edit Profile", edit_attendee_path(current_user) %><br>
+
+>>>>>>> de4a2bbb8bc71b065b2027dc6a5f30f9c990597c
   <br>
   <%= link_to "Logout", logout_path %>
 <% else %>
