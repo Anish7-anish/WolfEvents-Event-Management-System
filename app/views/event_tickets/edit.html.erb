@@ -6,5 +6,6 @@
 
 <div>
   <%= link_to "Show this event ticket", @event_ticket %> |
-  <%= link_to "Back to event tickets", event_tickets_path %>
+  <%= link_to "Back to event tickets", event_tickets_path(:attendee_id => current_user.id) %>
+<!--  <%#= link_to "Booking History", event_tickets_path(:attendee_id => current_user.id) %><br>-->
 </div>
