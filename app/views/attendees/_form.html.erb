@@ -1,4 +1,4 @@
-<%= form_with(model: attendee, url: attendee_path(attendee), method: "patch") do |form| %>
+<%= form_with(model: attendee, url: signup_path) do |form| %>
   <% if attendee.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(attendee.errors.count, "error") %> prohibited this attendee from being saved:</h2>
@@ -11,24 +11,13 @@
     </div>
   <% end %>
 
-  <% unless attendee.persisted? %>
-    <div>
-      <%= form.label :email, style: "display: block" %>
-      <%= form.text_field :email %>
-    </div>
 
+  <% if attendee.is_admin %>
     <div>
-      <%= form.label :password_digest, "Password", style: "display: block" %>
-      <%= form.password_field :password %>
+      <strong>Email:</strong> <%= attendee.email %>
     </div>
-
-  <% else %>
-    <% if attendee.is_admin %>
-      <div>
-        <strong>Email:</strong> <%= attendee.email %>
-      </div>
-    <% end %>
   <% end %>
+
   <% if !attendee.is_admin %>
     <div>
       <%= form.label :email, style: "display: block" %>
@@ -62,6 +51,6 @@
   </div>
 
   <div>
-    <%= form.submit "Update Attendee" %>
+    <%= form.submit %>
   </div>
 <% end %>

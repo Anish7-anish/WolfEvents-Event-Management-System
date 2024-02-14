@@ -15,6 +15,7 @@ class AttendeesController < ApplicationController
     @attendee = Attendee.new
   end
 
+
   
 
   # GET /attendees/1/edit
