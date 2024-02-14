@@ -23,8 +23,8 @@
 
 
   <div>
-    <%= form.label :category, style: "display: block" %>
-    <%= form.text_field :category %>
+    <%= form.label :category, "Category:", style: "display: block" %>
+    <%= form.select :category, options_for_select(["Concerts", "Sports", "Arts & Theatre", "Miscellaneous/Family – Private"], form.object.category), include_blank: true %>
   </div>
 
   <div>

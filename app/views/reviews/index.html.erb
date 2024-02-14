@@ -2,18 +2,32 @@
 
 <h1>Reviews</h1>
 <%= form_with(url: reviews_path, method: "get") do %>
-  <div>
-    <%= label_tag :attendee_name, "Search by Attendee Name:" %>
-    <%= text_field_tag :attendee_name, params[:attendee_name], placeholder: "Enter Attendee Name" %>
-    <%#= submit_tag "Search" %>
-  </div>
-  <br>
+  <%if current_user && current_user.is_admin %>
+    <div>
+      <%= label_tag :attendee_name, "Search by Attendee Name:" %>
+      <%= text_field_tag :attendee_name, params[:attendee_name], placeholder: "Enter Attendee Name" %>
+      <%#= submit_tag "Search" %>
+    </div>
+    <br>
 
-  <div>
-    <%= label_tag :event_id, "Search by Event ID:" %>
-    <%= text_field_tag :event_id, params[:event_id], placeholder: "Enter Event ID" %>
-    <%#= submit_tag "Search" %>
-  </div>
+    <div>
+      <%= label_tag :event_id, "Search by Event ID:" %>
+      <%= text_field_tag :event_id, params[:event_id], placeholder: "Enter Event ID" %>
+      <%#= submit_tag "Search" %>
+    </div>
+
+  <% else %>
+    <div>
+      <%= label_tag :attendee_email, "Search by Attendee Email:" %>
+      <%= text_field_tag :attendee_email, params[:attendee_email], placeholder: "Enter Attendee Email" %>
+    </div>
+    <br>
+
+    <div>
+      <%= label_tag :event_name, "Search by Event Name:" %>
+      <%= text_field_tag :event_name, params[:event_name], placeholder: "Enter Event Name" %>
+    </div>
+  <% end %>
   <br>
   <%= submit_tag "Search" %>
 <% end %>
@@ -25,6 +39,7 @@
     <th>Review ID</th>
     <th>Attendee ID</th>
     <th>Attendee Name</th>
+    <th>Attendee Email ID</th>
     <th>Event ID</th>
     <th>Event Name</th>
     <th>Rating</th>
@@ -38,6 +53,7 @@
       <td><%= review.id %></td>
       <td><%= review.attendee.id %></td> <!-- Assuming review belongs_to :attendee -->
       <td><%= review.attendee.name %></td>
+      <td><%= review.attendee.email %></td>
       <td><%= review.event.id %></td> <!-- Assuming review belongs_to :event -->
       <td><%= review.event.name %></td>
       <td><%= review.rating %></td>

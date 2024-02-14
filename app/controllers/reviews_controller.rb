@@ -12,6 +12,14 @@ class ReviewsController < ApplicationController
     if params[:event_id].present?
       @reviews = @reviews.joins(:event).where(events: { id: params[:event_id] })
     end
+
+    if params[:attendee_email].present?
+      @reviews = @reviews.joins(:attendee).where("attendees.email LIKE ?", "%#{params[:attendee_email]}%")
+    end
+
+    if params[:event_name].present?
+      @reviews = @reviews.joins(:event).where("events.name LIKE ?", "%#{params[:event_name]}%")
+    end
   end
 
   # GET /reviews/1 or /reviews/1.json
