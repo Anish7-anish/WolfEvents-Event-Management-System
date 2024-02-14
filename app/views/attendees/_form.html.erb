@@ -23,10 +23,23 @@
     </div>
 
   <% else %>
-    <div>
-      <strong>Email:</strong> <%= attendee.email %>
-    </div>
+    <% if attendee.is_admin %>
+      <div>
+        <strong>Email:</strong> <%= attendee.email %>
+      </div>
+    <% end %>
   <% end %>
+  <% if !attendee.is_admin %>
+      <div>
+        <%= form.label :email, style: "display: block" %>
+        <%= form.text_field :email %>
+      </div>
+
+      <div>
+        <%= form.label :password_digest, "Password", style: "display: block" %>
+        <%= form.password_field :password %>
+      </div>
+    <% end %>
 
   <div>
     <%= form.label :name, style: "display: block" %>

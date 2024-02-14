@@ -19,6 +19,10 @@ class AttendeesController < ApplicationController
 
   # GET /attendees/1/edit
   def edit
+    # Prevent non-admin attendees from updating their ID
+    unless current_user.is_admin
+      redirect_to root_path, alert: "You are not authorized to perform this action." unless @attendee == current_user
+    end
   end
 
   # POST /attendees or /attendees.json

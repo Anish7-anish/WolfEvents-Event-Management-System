@@ -12,7 +12,9 @@
 <% elsif current_user && !current_user.is_admin %>
   Logged in as <%= current_user.name %>.<br>
   <%= link_to "All Events", events_path %><br>
-  <%= link_to "Booking History", event_tickets_path(:attendee_id => current_user.id) %>
+  <%= link_to "Booking History", event_tickets_path(:attendee_id => current_user.id) %><br>
+  <%= link_to "Edit Profile", edit_attendee_path(current_user) %><br>
+
   <br>
 
   <%= link_to "Logout", logout_path %>

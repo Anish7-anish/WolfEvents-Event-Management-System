@@ -6,7 +6,8 @@
     <thead>
     <tr>
       <th>Attendee ID</th>
-      <th>Event ID</th>
+      <th>Event Name</th>
+      <th>Date</th>
       <th>Confirmation Number</th>
       <th colspan="3">Actions</th>
     </tr>
@@ -17,6 +18,7 @@
       <tr>
         <td><%= event_ticket.attendee_name %></td>
         <td><%= event_ticket.event_name %></td>
+        <td><%= event_ticket.event.date.strftime('%Y-%m-%d') if event_ticket.event.date %></td>
         <td><%= event_ticket.confirmation_number %></td>
         <td><%= link_to "Show this event ticket", event_ticket %></td>
       </tr>
