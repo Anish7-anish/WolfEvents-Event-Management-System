@@ -64,6 +64,11 @@ class RoomsController < ApplicationController
     end
   end
 
+  def details
+    room = Room.find(params[:id])
+    render json: { capacity: room.capacity }
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_room
