@@ -14,7 +14,7 @@
       <% if current_user.is_admin %>
         <%= link_to "Show", event %><br>
       <% end %>
-      <%= link_to "Book", event_tickets_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }), method: :post %>
+      <%= link_to "Book", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %>
     </td>
   <% end %>
 </tr>

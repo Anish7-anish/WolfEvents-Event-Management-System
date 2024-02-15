@@ -13,22 +13,31 @@ class EventTicketsController < ApplicationController
   end
 
   def new
-    @event_ticket = EventTicket.new
+    @event = Event.find_by_id(event_ticket_params[:event_id])
+    params[:event_ticket][:total_cost] = params[:event_ticket][:number_of_tickets].to_i * @event.ticket_price
+    @event_ticket = EventTicket.new(event_ticket_params)
   end
 
   def edit
   end
 
   def create
+    @event = Event.find_by_id(event_ticket_params[:event_id])
+    params[:event_ticket][:total_cost] = params[:event_ticket][:number_of_tickets].to_i * @event.ticket_price
     @event_ticket = EventTicket.new(event_ticket_params)
 
+
     respond_to do |format|
-      if @event_ticket.save
-        @event_ticket.event.decrease_seats_left
+      if @event.number_of_seats_left >= @event_ticket.number_of_tickets and @event_ticket.save
+        @event.number_of_seats_left = @event.number_of_seats_left - @event_ticket.number_of_tickets
+        @event.save
         format.html { redirect_to event_ticket_url(@event_ticket), notice: "Event ticket was successfully created." }
         format.json { render :show, status: :created, location: @event_ticket }
+      elsif @event.number_of_seats_left < @event_ticket.number_of_tickets
+        format.html { redirect_to events_url, notice: "Not enough seats left (Seats left: "+@event.number_of_seats_left.to_s+")" }
+        format.json { render json: @event_ticket.errors, status: :unprocessable_entity }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { redirect_to event_ticket_url(@event_ticket), notice: "Booking unsuccessful" }
         format.json { render json: @event_ticket.errors, status: :unprocessable_entity }
       end
     end
@@ -47,16 +56,19 @@ class EventTicketsController < ApplicationController
   end
 
   def destroy
-    @event_ticket.destroy!
+    @event_ticket = EventTicket.find(params[:id])
+    @event = @event_ticket.event
 
     respond_to do |format|
-      @event_ticket.event.increase_seats_left
-      if current_user && current_user.respond_to?(:admin?) && current_user.admin?
-        format.html { redirect_to event_tickets_url, notice: "Event ticket was successfully destroyed." }
+      if @event_ticket.destroy
+        @event.number_of_seats_left += @event_ticket.number_of_tickets
+        @event.save
+        format.html { redirect_to events_url, notice: "Event ticket was successfully canceled." }
+        format.json { head :no_content }
       else
-        format.html { redirect_to event_tickets_url, notice: "Event ticket was successfully cancelled." }
+        format.html { redirect_to event_ticket_url(@event_ticket), notice: "Cancellation unsuccessful." }
+        format.json { render json: @event_ticket.errors, status: :unprocessable_entity }
       end
-      format.json { head :no_content }
     end
   end
 
@@ -68,6 +80,6 @@ class EventTicketsController < ApplicationController
   end
 
   def event_ticket_params
-    params.require(:event_ticket).permit(:attendee_id, :event_id, :confirmation_number)
+    params.require(:event_ticket).permit(:attendee_id, :event_id, :confirmation_number, :number_of_tickets, :total_cost)
   end
 end

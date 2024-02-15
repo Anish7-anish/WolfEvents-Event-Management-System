@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_14_013053) do
+ActiveRecord::Schema.define(version: 2024_02_14_174520) do
 
   create_table "attendees", force: :cascade do |t|
     t.string "email"
@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 2024_02_14_013053) do
     t.string "confirmation_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "number_of_tickets"
+    t.decimal "total_cost"
     t.index ["attendee_id"], name: "index_event_tickets_on_attendee_id"
     t.index ["event_id"], name: "index_event_tickets_on_event_id"
   end

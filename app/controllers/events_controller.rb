@@ -1,7 +1,11 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
-  before_action :require_admin, except: [:index, :show]
+  before_action :require_admin, except: [:index, :show,:ticket_price ]
 
+  def ticket_price
+    event = Event.find(params[:id])
+    render json: { ticket_price: event.ticket_price }
+  end
   def index
     @events = Event.upcoming.not_sold_out
     filter_events
@@ -77,7 +81,6 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
   private
 
   def set_event

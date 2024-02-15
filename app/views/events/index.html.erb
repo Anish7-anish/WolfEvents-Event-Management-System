@@ -5,8 +5,9 @@
 <%= form_with(url: events_path, method: "get") do %>
   <div>
     <%= label_tag :category, "Category:" %>
-    <%= select_tag :category, options_for_select(Event.pluck(:category).uniq), include_blank: true %>
+    <%= select_tag :category, options_for_select(["Concerts", "Sports", "Arts & Theatre", "Miscellaneous/Family – Private"], params[:category]), include_blank: true %>
   </div>
+
   <div>
     <%= label_tag :date, "Date:" %>
     <%= text_field_tag :date, params[:date] %>

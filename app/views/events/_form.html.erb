@@ -17,8 +17,10 @@
                   .then(response => response.json())
                   .then(data => {
                       capacityDisplay.value = data.capacity || 'N/A';
+                      capacityDisplay.setAttribute('max', data.capacity || ''); // Set max attribute
                   })
                   .catch(error => console.error('Error fetching room details:', error));
+
           });
       });
 
@@ -47,8 +49,8 @@
 
 
   <div>
-    <%= form.label :category, style: "display: block" %>
-    <%= form.text_field :category %>
+    <%= form.label :category, "Category:", style: "display: block" %>
+    <%= form.select :category, options_for_select(["Concerts", "Sports", "Arts & Theatre", "Miscellaneous/Family – Private"], form.object.category), include_blank: true %>
   </div>
 
   <div>
@@ -74,8 +76,9 @@
 
   <div>
     <%= form.label :number_of_seats_left, style: "display: block" %>
-    <%= form.number_field :number_of_seats_left, id: "room_capacity"%>
+    <%= form.number_field :number_of_seats_left, id: "room_capacity", max: "YOUR_UPPER_LIMIT" %>
   </div>
+
   <br>
 
   <div>
