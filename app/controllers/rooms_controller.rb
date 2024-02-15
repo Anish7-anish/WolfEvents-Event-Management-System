@@ -56,13 +56,32 @@ class RoomsController < ApplicationController
   end
 
   # DELETE /rooms/1 or /rooms/1.json
+  # DELETE /rooms/1 or /rooms/1.json
+  # DELETE /rooms/1 or /rooms/1.json
+  # DELETE /rooms/1 or /rooms/1.json
+  # DELETE /rooms/1 or /rooms/1.json
   def destroy
-    @room.destroy
-    respond_to do |format|
-      format.html { redirect_to rooms_url, notice: 'Room was successfully destroyed.' }
-      format.json { head :no_content }
+    begin
+      ActiveRecord::Base.transaction do
+        @room.events.destroy_all
+        @room.destroy
+      end
+
+      respond_to do |format|
+        format.html { redirect_to rooms_url, notice: 'Room and associated events were successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    rescue ActiveRecord::InvalidForeignKey
+      respond_to do |format|
+        format.html { redirect_to rooms_url, alert: 'Failed to destroy room. Make sure there are no associated records.' }
+        format.json { render json: { error: 'Failed to destroy room. Make sure there are no associated records.' }, status: :unprocessable_entity }
+      end
     end
   end
+
+
+
+
 
   def details
     room = Room.find(params[:id])

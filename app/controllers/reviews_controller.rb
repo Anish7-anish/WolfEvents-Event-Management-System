@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: %i[ show edit update destroy ]
-  before_action :check_event_category, only: [:new, :create], unless: :admin?
+  before_action :check_event_category, only: [:new], unless: :admin?
 
   # GET /reviews or /reviews.json
   def index
