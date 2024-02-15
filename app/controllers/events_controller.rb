@@ -96,6 +96,15 @@ class EventsController < ApplicationController
   end
 
   def filter_events
+    @events = Event.all
+    if current_user && current_user.is_admin
+      # For admin users, fetch all events
+    else
+      # For non-admin users, only fetch future events
+      @events = @events.where('date >= ?', Date.today)
+    end
+
+    # Apply additional filters
     @events = @events.where(category: params[:category]) if params[:category].present?
     @events = @events.where(date: params[:date]) if params[:date].present?
     if params[:min_price].present? && params[:max_price].present?
@@ -103,6 +112,7 @@ class EventsController < ApplicationController
     end
     @events = @events.where("name LIKE ?", "%#{params[:search]}%") if params[:search].present?
   end
+
 
   def book
     @event = Event.find(params[:id])
