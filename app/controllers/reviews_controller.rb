@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: %i[ show edit update destroy ]
-  before_action :check_event_category, only: [:new, :create], unless: :admin?
+  before_action :check_event_category, only: [:new], unless: :admin?
 
   # GET /reviews or /reviews.json
   def index
@@ -42,10 +42,14 @@ class ReviewsController < ApplicationController
   def create
     @review = Review.new(review_params)
     # event = Event.find(@review.event_id)
-    unless admin?
+    if admin?
       event = Event.find(@review.event_id)
       if event.category.in?(['Miscellaneous', 'Private'])
-        redirect_to root_path, alert: "Reviews are not allowed for events in Miscellaneous/Private categories." and return
+        redirect_to (request.referer || root_path), alert: "Reviews are not allowed for events in Miscellaneous/Private categories." and return
+      end
+      if event.date >= Date.current
+        redirect_to events_path, alert: "Reviews can only be written for events that have already occurred."
+        return
       end
     end
     respond_to do |format|
@@ -99,9 +103,13 @@ class ReviewsController < ApplicationController
 
 
   def check_event_category
-      event = Event.find(params[:event_id])
-      if event.category.in?(['Miscellaneous', 'Private'])
-        redirect_to root_path, alert: "Reviews are not allowed for events in Miscellaneous/Private categories."
-      end
+    event = Event.find(params[:event_id])
+    if event.category.in?(['Miscellaneous', 'Private'])
+      redirect_to root_path, alert: "Reviews are not allowed for events in Miscellaneous/Private categories."
     end
+    if event.date >= Date.current
+      redirect_to events_path, alert: "Reviews can only be written for events that have already occurred."
+      return
+    end
+  end
 end

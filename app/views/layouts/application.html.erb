@@ -11,6 +11,15 @@
 
   <body>
     <%= link_to 'Home page', root_path %>
+    <% flash.each do |name, msg| %>
+    <% if name == 'notice' %>
+      <%= content_tag(:div, msg, class: "flash #{name}", style: "color: green; background-color: #bdfcc9; padding: 10px; border-radius: 5px; margin: 10px 0;") %>
+    <% elsif name == 'alert' %>
+      <%= content_tag(:div, msg, class: "flash #{name}", style: "color: white; background-color: red; padding: 10px; border-radius: 5px; margin: 10px 0;") %>
+    <% else %>
+      <%= content_tag(:div, msg, class: "flash #{name}", style: "padding: 10px; border-radius: 5px; margin: 10px 0;") %>
+    <% end %>
+  <% end %>
     <%= yield %>
   </body>
 </html>

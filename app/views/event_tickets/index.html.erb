@@ -1,4 +1,4 @@
-<p style="color: green"><%= notice %></p>
+<!--<p style="color: green"><%#= notice %></p>-->
 
 <h1>Event tickets</h1>
 <% if @event_tickets %>
@@ -23,7 +23,7 @@
         <td><%= event_ticket.number_of_tickets %></td>
         <td><%= event_ticket.confirmation_number %></td>
         <td><%= link_to "Show this event ticket", event_ticket %></td>
-        <% if event_ticket.event.category.in?(['Miscellaneous', 'Private']) %>
+        <% if event_ticket.event.category.in?(['Miscellaneous', 'Private']) || event_ticket.event.date >= Date.current %>
           <td>N/A</td>
         <% else %>
           <td><%= link_to "Write a Review", new_review_path(event_id: event_ticket.event_id) %></td>

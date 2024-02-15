@@ -24,8 +24,8 @@
   <%end %>
 
   <% if current_user && !current_user.is_admin %>
-    <%= form.hidden_field :attendee_id, value: review.attendee_id %>
-    <%= form.hidden_field :event_id, value: review.event_id %>
+  <%= form.hidden_field :attendee_id, value: review.attendee_id %>
+  <%= form.hidden_field :event_id, value: review.event_id %>
   <%end %>
 
   <div>
