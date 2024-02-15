@@ -1,5 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: %i[ show edit update destroy ]
+  before_action :check_event_category, only: [:new, :create], unless: :admin?
 
   # GET /reviews or /reviews.json
   def index
@@ -21,6 +22,8 @@ class ReviewsController < ApplicationController
   # GET /reviews/new
   def new
     @review = Review.new
+    @review.attendee_id = current_user.id # Adjust as per your user session management
+    @review.event_id = params[:event_id]
   end
 
   # GET /reviews/1/edit
@@ -30,7 +33,13 @@ class ReviewsController < ApplicationController
   # POST /reviews or /reviews.json
   def create
     @review = Review.new(review_params)
-
+    # event = Event.find(@review.event_id)
+    unless admin?
+      event = Event.find(@review.event_id)
+      if event.category.in?(['Miscellaneous', 'Private'])
+        redirect_to root_path, alert: "Reviews are not allowed for events in Miscellaneous/Private categories." and return
+      end
+    end
     respond_to do |format|
       if @review.save
         format.html { redirect_to review_url(@review), notice: "Review was successfully created." }
@@ -74,5 +83,17 @@ class ReviewsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def review_params
       params.require(:review).permit(:attendee_id, :event_id, :rating, :feedback)
+    end
+
+    def admin?
+      current_user&.is_admin?
+    end
+
+
+  def check_event_category
+      event = Event.find(params[:event_id])
+      if event.category.in?(['Miscellaneous', 'Private'])
+        redirect_to root_path, alert: "Reviews are not allowed for events in Miscellaneous/Private categories."
+      end
     end
 end

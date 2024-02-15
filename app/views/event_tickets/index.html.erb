@@ -21,6 +21,12 @@
         <td><%= event_ticket.event.date.strftime('%Y-%m-%d') if event_ticket.event.date %></td>
         <td><%= event_ticket.confirmation_number %></td>
         <td><%= link_to "Show this event ticket", event_ticket %></td>
+        <% if event_ticket.event.category.in?(['Miscellaneous', 'Private']) %>
+          <td>N/A</td>
+        <% else %>
+          <td><%= link_to "Write a Review", new_review_path(event_id: event_ticket.event_id) %></td>
+        <% end %>
+
       </tr>
     <% end %>
     </tbody>

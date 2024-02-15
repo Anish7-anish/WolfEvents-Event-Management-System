@@ -11,15 +11,22 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :attendee_id, style: "display: block" %>
-    <%= form.text_field :attendee_id %>
-  </div>
+  <% if current_user && current_user.is_admin %>
+    <div>
+      <%= form.label :attendee_id, style: "display: block" %>
+      <%= form.text_field :attendee_id %>
+    </div>
 
-  <div>
-    <%= form.label :event_id, style: "display: block" %>
-    <%= form.text_field :event_id %>
-  </div>
+    <div>
+      <%= form.label :event_id, style: "display: block" %>
+      <%= form.text_field :event_id %>
+    </div>
+  <%end %>
+
+  <% if current_user && !current_user.is_admin %>
+    <%= form.hidden_field :attendee_id, value: review.attendee_id %>
+    <%= form.hidden_field :event_id, value: review.event_id %>
+  <%end %>
 
   <div>
     <%= form.label :rating, style: "display: block" %>
