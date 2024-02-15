@@ -24,7 +24,7 @@
         <td><%= event_ticket.confirmation_number %></td>
         <td><%= link_to "Show this event ticket", event_ticket %></td>
         <% if event_ticket.event.category.in?(['Miscellaneous', 'Private']) || event_ticket.event.date >= Date.current %>
-          <td>N/A</td>
+          <td><a href="#" style="color: grey; cursor: not-allowed; text-decoration: none;">Write a Review</a></td>
         <% else %>
           <td><%= link_to "Write a Review", new_review_path(event_id: event_ticket.event_id) %></td>
         <% end %>
