@@ -8,28 +8,18 @@ class Event < ApplicationRecord
   def start_time_must_be_in_future
     return if start_time.blank? || date.blank?
 
-
-    if(date<Date.current)
+    if date < Date.current
       errors.add(:date, "must be in the future")
-    elsif(date==Date.current)
-      if(start_time<Time.current)
-        errors.add(:start_time, "must be in the future")
-      end
-    elsif(start_time>end_time)
-      errors.add(:start_time, "must be less than end time")
+    elsif date == Date.current && start_time < Time.current
+      errors.add(:start_time, "must be in the future")
     end
-
-    # errors.add(:start_time, "must be in the future") if start_time < Time.current
-    # errors.add(:date, "must be in the future") if date < Date.current
   end
 
-  validates :date, presence: true
-  validates :start_time, presence: true
+
   validates :ticket_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :number_of_seats_left, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  validate :date_cannot_be_in_the_past
-  validate :start_time_cannot_be_in_the_past
+
 
   def check_room_availability
     if room_id && overlaps_with_other_events?
@@ -37,13 +27,7 @@ class Event < ApplicationRecord
     end
   end
 
-  def date_cannot_be_in_the_past
-    errors.add(:date, "can't be in the past") if date.present? && date < Date.today
-  end
 
-  def start_time_cannot_be_in_the_past
-    errors.add(:start_time, "can't be in the past") if start_time.present? && start_time < Time.now
-  end
 
   def overlaps_with_other_events?
     if persisted? # Exclude self from the query when updating an existing record
