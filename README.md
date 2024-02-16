@@ -2,7 +2,13 @@
 
 Below is a guide to help you navigate through the system effectively.
 
-### Link to our website: 
+### The application is deployed on VCL: 
+
+### Admin Account
+
+For reviewers with admin privileges, you can log in using the following credentials:
+- **Email**: admin@example.com
+- **Password**: password
 
 ### Getting Started
 
@@ -26,9 +32,4 @@ Below is a guide to help you navigate through the system effectively.
 
 8. **Logout**: Click on the "Logout" button to securely log out of your account and return to the home page.
 
-### Admin Account
-
-For reviewers with admin privileges, you can log in using the following credentials:
-- **Email**: admin@example.com
-- **Password**: password
 
