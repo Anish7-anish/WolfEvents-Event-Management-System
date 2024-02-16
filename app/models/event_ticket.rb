@@ -14,6 +14,12 @@ class EventTicket < ApplicationRecord
   private
 
   def generate_confirmation_number
-    self.confirmation_number = SecureRandom.hex(6).upcase # Generate a random hexadecimal string with 6 characters
+    loop do
+      random_number = SecureRandom.hex(6).upcase
+      unless self.class.exists?(confirmation_number: random_number)
+        self.confirmation_number = random_number
+        break
+      end
+    end
   end
 end

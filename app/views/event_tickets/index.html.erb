@@ -23,10 +23,10 @@
         <td><%= event_ticket.number_of_tickets %></td>
         <td><%= event_ticket.confirmation_number %></td>
         <td><%= link_to "Show this event ticket", event_ticket %></td>
-        <% if event_ticket.event.category.in?(['Miscellaneous', 'Private']) || event_ticket.event.date >= Date.current %>
+        <% if event_ticket.event.category.in?(['Miscellaneous', 'Private']) || event_ticket.event.date > Date.current %>
           <td><a href="#" style="color: grey; cursor: not-allowed; text-decoration: none;">Write a Review</a></td>
         <% else %>
-          <% if event_ticket.event.end_time < Time.current %>
+          <% if event_ticket.event.end_time < Time.current && event_ticket.event.date == Date.current%>
             <% if current_user.is_admin? %>
               <% if current_user.id==event_ticket.attendee_id %>
                 <td><%= link_to "Write a Review", new_review_path(event_id: event_ticket.event_id) %></td>

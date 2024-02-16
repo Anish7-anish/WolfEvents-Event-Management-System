@@ -1,3 +1,4 @@
+
 <tr>
   <td style="border: 1px solid black; padding: 8px;"><%= event.id %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.name %></td>
@@ -13,8 +14,29 @@
     <td style="border: 1px solid black; padding: 8px;">
       <% if current_user.is_admin %>
         <%= link_to "Show", event %><br>
-      <% end %>
-      <%= link_to "Book", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %>
+        <% current_time = Time.current.strftime("%I:%M %p") %>
+        <% event_end_time = event.end_time %>
+        <%current_date= Date.current.strftime("%B %d, %Y") %>
+        <%if(event.date<Date.current)%>
+          <%= link_to "Book", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %>
+        <%elsif(event.date==Date.current && event.start_time<Time.current)%>
+          <%= link_to "Book", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %>
+        <%else %>
+          <%= link_to "Book", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %>
+        <%end%>
+        <%# if event_end_time.past? %>
+          <%#=current_date %>
+          <%#= link_to "Book", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %>
+        <%# else %>
+          <%#= link_to "Book", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %>
+        <%# end %>
+      <% else %>
+        <%= link_to "Book", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %>
+
+    <% end %>
+
+
+      <%#= link_to "Book", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %>
     </td>
   <% end %>
 </tr>

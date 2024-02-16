@@ -3,6 +3,25 @@ class Event < ApplicationRecord
   has_many :event_tickets, dependent: :destroy
   has_many :reviews, dependent: :destroy
   validate :check_room_availability
+  validate :start_time_must_be_in_future
+
+  def start_time_must_be_in_future
+    return if start_time.blank? || date.blank?
+
+
+    if(date<Date.current)
+      errors.add(:date, "must be in the future")
+    elsif(date==Date.current)
+      if(start_time<Time.current)
+        errors.add(:start_time, "must be in the future")
+      end
+    elsif(start_time>end_time)
+      errors.add(:start_time, "must be less than end time")
+    end
+
+    # errors.add(:start_time, "must be in the future") if start_time < Time.current
+    # errors.add(:date, "must be in the future") if date < Date.current
+  end
 
   validates :date, presence: true
   validates :start_time, presence: true
