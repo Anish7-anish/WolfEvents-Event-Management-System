@@ -1,22 +1,49 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: %i[ show edit update destroy ]
   before_action :check_event_category, only: [:new], unless: :admin?
+  before_action :set_reviews, only: [:index]
+
+  def set_reviews
+    if current_user.is_admin?
+      @reviews = Review.all
+    elsif current_user
+      @reviews = current_user.reviews
+    else
+      # Handle the case when there's no logged-in user
+      # For example, you might want to redirect to the login page
+      redirect_to login_path, alert: "Please log in to view reviews."
+    end
+  end
 
   # GET /reviews or /reviews.json
   def index
-    @reviews = Review.all
+    # For admin users, fetch all reviews
+    # For regular users, fetch only their own reviews
+    @reviews = current_user.is_admin ? Review.all : current_user.reviews
+
+    # Apply additional filters based on parameters passed in the request
+    @reviews = filter_reviews(@reviews, params)
+  end
+
+
+  def filter_reviews(reviews, params)
     if params[:attendee_name].present?
-      @reviews = @reviews.joins(:attendee).where("attendees.name LIKE ?", "%#{params[:attendee_name]}%")
+      reviews = reviews.joins(:attendee).where("attendees.name LIKE ?", "%#{params[:attendee_name]}%")
     end
+
     if params[:event_id].present?
-      @reviews = @reviews.joins(:event).where(events: { id: params[:event_id] })
+      reviews = reviews.joins(:event).where(events: { id: params[:event_id] })
     end
+
     if params[:attendee_email].present?
-      @reviews = @reviews.joins(:attendee).where("attendees.email LIKE ?", "%#{params[:attendee_email]}%")
+      reviews = reviews.joins(:attendee).where("attendees.email LIKE ?", "%#{params[:attendee_email]}%")
     end
+
     if params[:event_name].present?
-      @reviews = @reviews.joins(:event).where("events.name LIKE ?", "%#{params[:event_name]}%")
+      reviews = reviews.joins(:event).where("events.name LIKE ?", "%#{params[:event_name]}%")
     end
+
+    reviews
   end
   # GET /reviews/1 or /reviews/1.json
   def show
