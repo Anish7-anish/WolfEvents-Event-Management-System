@@ -3,7 +3,9 @@
 <%= render @review %>
 
 <div>
-  <%= link_to "Edit this review", edit_review_path(@review) %> |
+  <%if current_user && current_user.is_admin %>
+    <%= link_to "Edit this review", edit_review_path(@review) %> |
+  <%end %>
   <%= link_to "Back to reviews", reviews_path %>
   <%if current_user && current_user.is_admin %>
     <%= button_to "Destroy this review", @review, method: :delete %>

@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :event_tickets
   resources :rooms
   resources :reviews
+  get 'my_reviews', to: 'reviews#my_reviews'
+  get 'all_reviews', to: 'reviews#all_reviews'
   resources :booking_histories
   root 'home#index'
   resources :attendees

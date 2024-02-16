@@ -59,7 +59,7 @@
       <td><%= review.rating %></td>
       <td><%= review.feedback %></td>
       <td>
-        <%= link_to "Show this review", review %>
+        <%= link_to "Show this review", review %><br>
       </td>
     </tr>
   <% end %>
@@ -76,4 +76,5 @@
   <%# end %>
 <!--</div>-->
 
-<%= link_to "New review", event_tickets_path %>
+<%= link_to "New review", event_tickets_path %><br>
+<%= link_to "Back", root_path %>

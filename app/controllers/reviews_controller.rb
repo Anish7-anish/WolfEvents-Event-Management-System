@@ -15,15 +15,27 @@ class ReviewsController < ApplicationController
     end
   end
 
-  # GET /reviews or /reviews.json
   def index
-    # For admin users, fetch all reviews
-    # For regular users, fetch only their own reviews
-    @reviews = current_user.is_admin ? Review.all : current_user.reviews
-
-    # Apply additional filters based on parameters passed in the request
-    @reviews = filter_reviews(@reviews, params)
+    @reviews = Review.all
   end
+
+  def my_reviews
+    @reviews = current_user.reviews
+  end
+
+  def all_reviews
+    @reviews = Review.all
+  end
+
+  # GET /reviews or /reviews.json
+  # def index
+  #   # For admin users, fetch all reviews
+  #   # For regular users, fetch only their own reviews
+  #   @reviews = current_user.is_admin ? Review.all : current_user.reviews
+  #
+  #   # Apply additional filters based on parameters passed in the request
+  #   @reviews = filter_reviews(@reviews, params)
+  # end
 
 
   def filter_reviews(reviews, params)

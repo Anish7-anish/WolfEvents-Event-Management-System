@@ -2,12 +2,13 @@
 <h1>WolfEvents</h1>
 <p>Event Management System</p>
 <% if current_user && current_user.is_admin %>
-  Logged in as <%= current_user.name %>.<br>
+  Logged in as <%= current_user.name %>.<br><br>
   <%= link_to "All Events", events_path %><br>
   <%= link_to "All Attendees", attendees_path %><br>
   <%= link_to "All Event Tickets", event_tickets_path %><br>
   <%= link_to "Booking History", event_tickets_path(:attendee_id => current_user.id) %><br>
   <%= link_to "All Rooms", rooms_path %><br>
+  <%= link_to "My Reviews", my_reviews_path %><br>
   <%= link_to "All Reviews", reviews_path %><br>
   <%= link_to "Edit Profile", edit_attendee_path(current_user) %><br><br>
   <%#= link_to "Logout", logout_path %>
@@ -15,11 +16,11 @@
     <%= submit_tag "Logout", style: "background-color: blue; color: white;" %>
   <% end %>
 <% elsif current_user && !current_user.is_admin %>
-  Logged in as <%= current_user.name %>.<br>
+  Logged in as <%= current_user.name %>.<br><br>
   <%= link_to "All Events", events_path %><br>
   <%= link_to "Booking History", event_tickets_path(:attendee_id => current_user.id) %><br>
+  <%= link_to "My Reviews", my_reviews_path %><br>
   <%= link_to "All Reviews", reviews_path %><br>
-  <%= link_to "My Reviews", reviews_path %><br>
   <%= link_to "Edit Profile", edit_attendee_path(current_user) %><br>
   <%= link_to "Delete Account", attendee_path(current_user), method: :delete, data: { confirm: "Are you sure you want to delete your account?" } %>
 

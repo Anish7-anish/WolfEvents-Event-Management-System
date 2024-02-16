@@ -1,0 +1,36 @@
+<h1>My Reviews</h1>
+
+<table class="review-table-admin">
+  <thead>
+  <tr>
+    <th>Review ID</th>
+    <th>Attendee ID</th>
+    <th>Attendee Name</th>
+    <th>Attendee Email ID</th>
+    <th>Event ID</th>
+    <th>Event Name</th>
+    <th>Rating</th>
+    <th>Feedback</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @reviews.each do |review| %>
+    <tr>
+      <td><%= review.id %></td>
+      <td><%= review.attendee.id %></td> <!-- Assuming review belongs_to :attendee -->
+      <td><%= review.attendee.name %></td>
+      <td><%= review.attendee.email %></td>
+      <td><%= review.event.id %></td> <!-- Assuming review belongs_to :event -->
+      <td><%= review.event.name %></td>
+      <td><%= review.rating %></td>
+      <td><%= review.feedback %></td>
+      <td>
+        <%= link_to "Show this review", review %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Back", root_path %>
