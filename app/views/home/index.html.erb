@@ -9,16 +9,24 @@
   <%= link_to "Booking History", event_tickets_path(:attendee_id => current_user.id) %><br>
   <%= link_to "All Rooms", rooms_path %><br>
   <%= link_to "All Reviews", reviews_path %><br>
-  <%= link_to "Edit Profile", edit_attendee_path(current_user) %><br>
-  <%= link_to "Logout", logout_path %>
+  <%= link_to "Edit Profile", edit_attendee_path(current_user) %><br><br>
+  <%#= link_to "Logout", logout_path %>
+  <%= form_tag logout_path, method: :delete do %>
+    <%= submit_tag "Logout", style: "background-color: blue; color: white;" %>
+  <% end %>
 <% elsif current_user && !current_user.is_admin %>
   Logged in as <%= current_user.name %>.<br>
   <%= link_to "All Events", events_path %><br>
   <%= link_to "Booking History", event_tickets_path(:attendee_id => current_user.id) %><br>
+  <%= link_to "All Reviews", reviews_path %><br>
   <%= link_to "My Reviews", reviews_path %><br>
   <%= link_to "Edit Profile", edit_attendee_path(current_user) %><br>
-  <br>
-  <%= link_to "Logout", logout_path %>
+  <%= link_to "Delete Account", attendee_path(current_user), method: :delete, data: { confirm: "Are you sure you want to delete your account?" } %>
+
+  <br><br>
+  <%= form_tag logout_path, method: :delete do %>
+    <%= submit_tag "Logout", style: "background-color: blue; color: white;" %>
+  <% end %>
 <% else %>
   <%= link_to "Login", login_path %> or
   <%= link_to "Register", signup_path %>

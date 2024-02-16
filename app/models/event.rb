@@ -2,10 +2,7 @@ class Event < ApplicationRecord
   belongs_to :room
   has_many :event_tickets, dependent: :destroy
   has_many :reviews, dependent: :destroy
-
   validate :check_room_availability
-
-
 
   def check_room_availability
     if room_id && overlaps_with_other_events?

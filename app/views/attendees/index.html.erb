@@ -2,6 +2,11 @@
 
 <h1>Attendees</h1>
 
+<%= form_with(url: search_attendees_path, method: "get") do %>
+  <%= text_field_tag :event_name, params[:event_name], placeholder: "Enter event name" %>
+  <%= submit_tag "Search" %>
+<% end %>
+
 <table class="table-bordered">
   <thead>
   <tr>

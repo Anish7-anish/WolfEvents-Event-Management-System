@@ -1,0 +1,36 @@
+<!-- app/views/attendees/search.html.erb -->
+
+<h2>Search Results</h2>
+
+<% if @attendees.any? %>
+  <table class="table-bordered">
+    <thead>
+    <tr>
+      <th class="cell-id">Id</th>
+      <th class="cell-email">Email</th>
+      <th class="cell-name">Name</th>
+      <th class="cell-phone">Phone Number</th>
+      <th class="cell-address">Address</th>
+      <th class="cell-credit-info">Credit Card Info</th>
+      <th class="cell-is-admin">Is Admin</th>
+      <th class="cell-actions">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @attendees.each do |attendee| %>
+      <tr>
+        <td class="cell-id"><%= attendee.id %></td>
+        <td class="cell-email"><%= attendee.email %></td>
+        <td class="cell-name"><%= attendee.name %></td>
+        <td class="cell-phone"><%= attendee.phone_number %></td>
+        <td class="cell-address"><%= attendee.address %></td>
+        <td class="cell-credit-info"><%= attendee.credit_card_info %></td>
+        <td class="cell-is-admin"><%= attendee.is_admin ? 'Yes' : 'No' %></td>
+        <td class="cell-actions"><%= link_to "Show", attendee %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No attendees found for the specified event.</p>
+<% end %>

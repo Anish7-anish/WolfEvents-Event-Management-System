@@ -11,8 +11,11 @@ Rails.application.routes.draw do
   get 'signup', to: 'attendees#new', as: 'signup'
   post 'signup', to: 'attendees#create', as: 'Register'
   get 'login', to: "sessions#new", as: 'login'
-  get 'logout', to: "sessions#destroy", as: 'logout'
+  # get 'logout', to: "sessions#destroy", as: 'logout'
+  get '/search_attendees', to: 'attendees#search', as: 'search_attendees'
+  delete 'logout', to: 'sessions#destroy', as: :logout
   delete 'account', to: 'attendees#destroy', as: 'delete_account'
   get 'rooms/:id/details', to: 'rooms#details', as: 'room_details'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

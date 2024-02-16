@@ -71,6 +71,11 @@ class AttendeesController < ApplicationController
     end
   end
 
+  def search
+    event_name = params[:event_name]
+    @attendees = Attendee.joins(:event_tickets).joins(:events).where("events.name = ?", event_name).distinct
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_attendee
