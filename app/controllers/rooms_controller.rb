@@ -3,14 +3,34 @@ class RoomsController < ApplicationController
 
   # GET /rooms or /rooms.json
   def index
-    @rooms = Room.all
+    @available_rooms = Room.all
 
     if params[:date].present? && params[:start_time].present? && params[:end_time].present?
-      # Retrieve available rooms based on the desired time slot
-      @available_rooms = Room.available_rooms(params[:date], params[:start_time], params[:end_time])
-    else
-      # If date and time parameters are not provided, show all rooms
-      @available_rooms = @rooms
+      desired_date = Date.parse(params[:date])
+      start_time = Time.parse(params[:start_time])
+      end_time = Time.parse(params[:end_time])
+
+      # Find rooms with events that don't match the desired date
+      rooms_with_conflicts = Room.joins(:events)
+                                 .where(events: { date: desired_date })
+                                 .where.not("events.start_time >= ? AND events.end_time <= ?", end_time, start_time)
+                                 .distinct.pluck(:id)
+
+      # Find rooms without events
+      rooms_without_events = Room.left_outer_joins(:events)
+                                 .where(events: { id: nil })
+                                 .pluck(:id)
+
+      # Combine the two sets of room IDs
+      available_room_ids = (rooms_without_events + rooms_with_conflicts).uniq
+
+      # Retrieve the available rooms
+      @available_rooms = Room.where(id: available_room_ids)
+    end
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @available_rooms }
     end
   end
 
