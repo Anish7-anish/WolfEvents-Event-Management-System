@@ -26,7 +26,19 @@
         <% if event_ticket.event.category.in?(['Miscellaneous', 'Private']) || event_ticket.event.date >= Date.current %>
           <td><a href="#" style="color: grey; cursor: not-allowed; text-decoration: none;">Write a Review</a></td>
         <% else %>
-          <td><%= link_to "Write a Review", new_review_path(event_id: event_ticket.event_id) %></td>
+          <% if event_ticket.event.end_time < Time.current %>
+            <% if current_user.is_admin? %>
+              <% if current_user.id==event_ticket.attendee_id %>
+                <td><%= link_to "Write a Review", new_review_path(event_id: event_ticket.event_id) %></td>
+              <% else %>
+                <td><a href="#" style="color: grey; cursor: not-allowed; text-decoration: none;">Write a Review</a></td>
+              <% end %>
+            <% else %>
+              <td><%= link_to "Write a Review", new_review_path(event_id: event_ticket.event_id) %></td>
+            <% end %>
+          <% else %>
+            <td><a href="#" style="color: grey; cursor: not-allowed; text-decoration: none;">Write a Review</a></td>
+          <% end %>
         <% end %>
 
       </tr>
