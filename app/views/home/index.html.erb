@@ -1,6 +1,6 @@
 <p id=”notice”><%= notice %></p>
 <h1>WolfEvents</h1>
-<p>Event Management System</p>
+<h3>Event Management System</h3>
 <% if current_user && current_user.is_admin %>
   Logged in as <%= current_user.name %>.<br><br>
   <%= link_to "All Events", events_path %><br>

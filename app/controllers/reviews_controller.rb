@@ -17,6 +17,7 @@ class ReviewsController < ApplicationController
 
   def index
     @reviews = Review.all
+    @reviews = filter_reviews(@reviews, params)
   end
 
   def my_reviews
@@ -43,10 +44,6 @@ class ReviewsController < ApplicationController
       reviews = reviews.joins(:attendee).where("attendees.name LIKE ?", "%#{params[:attendee_name]}%")
     end
 
-    if params[:event_id].present?
-      reviews = reviews.joins(:event).where(events: { id: params[:event_id] })
-    end
-
     if params[:attendee_email].present?
       reviews = reviews.joins(:attendee).where("attendees.email LIKE ?", "%#{params[:attendee_email]}%")
     end
@@ -68,6 +65,10 @@ class ReviewsController < ApplicationController
   end
   # GET /reviews/1/edit
   def edit
+    unless admin?
+      redirect_to @review, alert: "Only admins can edit reviews."
+      return
+    end
   end
   # POST /reviews or /reviews.json
   def create
@@ -95,6 +96,11 @@ class ReviewsController < ApplicationController
   end
   # PATCH/PUT /reviews/1 or /reviews/1.json
   def update
+    unless admin?
+      redirect_to @review, alert: "Only admins can edit reviews."
+      return
+    end
+
     respond_to do |format|
       if @review.update(review_params)
         format.html { redirect_to review_url(@review), notice: "Review was successfully updated." }

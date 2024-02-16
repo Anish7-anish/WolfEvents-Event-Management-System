@@ -2,32 +2,23 @@
 
 <h1>Reviews</h1>
 <%= form_with(url: reviews_path, method: "get") do %>
-  <%if current_user && current_user.is_admin %>
-    <div>
+  <div>
+    <div style="display: inline-block;">
       <%= label_tag :attendee_name, "Search by Attendee Name:" %>
       <%= text_field_tag :attendee_name, params[:attendee_name], placeholder: "Enter Attendee Name" %>
-      <%#= submit_tag "Search" %>
-    </div>
-    <br>
-
-    <div>
-      <%= label_tag :event_id, "Search by Event ID:" %>
-      <%= text_field_tag :event_id, params[:event_id], placeholder: "Enter Event ID" %>
-      <%#= submit_tag "Search" %>
     </div>
 
-  <% else %>
-    <div>
+    <div style="display: inline-block;">
       <%= label_tag :attendee_email, "Search by Attendee Email:" %>
       <%= text_field_tag :attendee_email, params[:attendee_email], placeholder: "Enter Attendee Email" %>
     </div>
-    <br>
 
-    <div>
+    <div style="display: inline-block;">
       <%= label_tag :event_name, "Search by Event Name:" %>
       <%= text_field_tag :event_name, params[:event_name], placeholder: "Enter Event Name" %>
     </div>
-  <% end %>
+  </div>
+
   <br>
   <%= submit_tag "Search" %>
 <% end %>
