@@ -45,7 +45,25 @@ class EventTicketsController < ApplicationController
 
   def update
     respond_to do |format|
+      old_number_of_tickets = @event_ticket.number_of_tickets
+      new_number_of_tickets = event_ticket_params[:number_of_tickets].to_i
+
       if @event_ticket.update(event_ticket_params)
+        @event = @event_ticket.event
+        difference_in_tickets = old_number_of_tickets - new_number_of_tickets
+
+        if difference_in_tickets > 0
+          @event.number_of_seats_left += difference_in_tickets
+        elsif difference_in_tickets < 0 && @event.number_of_seats_left >= difference_in_tickets.abs
+          @event.number_of_seats_left -= difference_in_tickets.abs
+        else
+          format.html { redirect_to event_ticket_url(@event_ticket), notice: "Not enough seats left." }
+          format.json { render json: @event_ticket.errors, status: :unprocessable_entity }
+          return
+        end
+
+        @event.save
+
         format.html { redirect_to event_ticket_url(@event_ticket), notice: "Event ticket was successfully updated." }
         format.json { render :show, status: :ok, location: @event_ticket }
       else
@@ -54,6 +72,7 @@ class EventTicketsController < ApplicationController
       end
     end
   end
+
 
   def destroy
     @event_ticket = EventTicket.find(params[:id])

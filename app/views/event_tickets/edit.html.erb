@@ -1,11 +1,46 @@
 <h1>Editing event ticket</h1>
 
-<%= render "form", event_ticket: @event_ticket %>
+<%= form_for @event_ticket do |form| %>
+  <div>
+    <%= form.label :attendee_id, style: "display: none" %>
+    <%= form.text_field :attendee_id, style: "display: none" %>
+  </div>
+
+  <div>
+    <%= form.label :event_id, style: "display: none" %>
+    <%= form.text_field :event_id, style: "display: none", id: "event_id"  %>
+  </div>
+
+  <div>
+    <%= form.label :number_of_tickets, style: "display: block" %>
+    <%= form.text_field :number_of_tickets, id: "number_of_tickets", value: @event_ticket.number_of_tickets || 1 %>
+  </div>
+
+  <div>
+    <%= form.label :total_cost, style: "display: block" %>
+    <%= form.text_field :total_cost, readonly: true, id: "total_cost", value: @event_ticket.total_cost.to_d %>
+  </div>
+
+  <script>
+      var numberField = document.getElementById('number_of_tickets');
+      var totalField = document.getElementById('total_cost');
+      var ticketCost = <%= @event_ticket.event.ticket_price.to_d %>;
+
+      numberField.addEventListener('input', function() {
+          var numberOfTickets = parseFloat(numberField.value);
+          var totalCost = numberOfTickets * ticketCost;
+          totalField.value = totalCost.toFixed(2); // Assuming you want to display the total with two decimal places
+      });
+  </script>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
 
 <br>
 
 <div>
   <%= link_to "Show this event ticket", @event_ticket %> |
-  <%= link_to "Back to event tickets", event_tickets_path(:attendee_id => current_user.id) %>
-<!--  <%#= link_to "Booking History", event_tickets_path(:attendee_id => current_user.id) %><br>-->
+  <%= link_to "Back to event tickets", event_tickets_path(attendee_id: current_user.id) %>
 </div>
