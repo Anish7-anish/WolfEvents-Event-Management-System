@@ -34,8 +34,8 @@ rooms = Room.create([
 
 # Seed data for Events
 events = Event.create([
-                        { name: 'Conference', room: rooms.first, category: 'Business', date: Date.today, start_time: Time.now, end_time: Time.now + 4.hours, ticket_price: 50.00, number_of_seats_left: 50 },
-                        { name: 'Workshop', room: rooms.second, category: 'Education', date: Date.tomorrow, start_time: Time.now, end_time: Time.now + 3.hours, ticket_price: 30.00, number_of_seats_left: 100 }
+                        { name: 'Conference', room: rooms.first, category: 'Concerts', date: Date.today, start_time: Time.now, end_time: Time.now + 4.hours, ticket_price: 50.00, number_of_seats_left: 50 },
+                        { name: 'Workshop', room: rooms.second, category: 'Miscellaneous/Private', date: Date.tomorrow, start_time: Time.now, end_time: Time.now + 3.hours, ticket_price: 30.00, number_of_seats_left: 100 }
                       ])
 
 # Seed data for Event Tickets
