@@ -7,11 +7,12 @@ class Event < ApplicationRecord
 
   def start_time_must_be_in_future
     return if start_time.blank? || date.blank?
-
-    if date < Date.current
+    if(date<Date.current)
       errors.add(:date, "must be in the future")
-    elsif date == Date.current && start_time < Time.current
-      errors.add(:start_time, "must be in the future")
+    elsif(start_time<Time.current && date == Date.current)
+      errors.add(:start_time, "must be in the future. Current start time : #{start_time}, but now it's : #{Time.current}")
+    elsif(start_time>end_time)
+      errors.add(:start_time, "must be less than end time")
     end
   end
 
