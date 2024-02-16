@@ -1,37 +1,11 @@
 <%= form_with(model: event) do |form| %>
-  <script>
-      document.addEventListener('turbolinks:load', function() {
-          const roomSelect = document.getElementById('room_select');
-          const capacityDisplay = document.getElementById('room_capacity');
-
-          if (!roomSelect) return; // Exit if the roomSelect is not present on the page
-
-          roomSelect.addEventListener('change', function() {
-              const selectedRoomId = this.value;
-              if (!selectedRoomId) {
-                  capacityDisplay.value = ''; // Clear capacity if no room is selected
-                  return;
-              }
-
-              fetch(`/rooms/${selectedRoomId}/details`)
-                  .then(response => response.json())
-                  .then(data => {
-                      capacityDisplay.value = data.capacity || 'N/A';
-                      capacityDisplay.setAttribute('max', data.capacity || ''); // Set max attribute
-                  })
-                  .catch(error => console.error('Error fetching room details:', error));
-
-          });
-      });
-
-  </script>
   <% if event.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
 
       <ul>
-        <% event.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% event.errors.full_messages.each do |error| %>
+          <li><%= error %></li>
         <% end %>
       </ul>
     </div>
@@ -44,9 +18,8 @@
 
   <div>
     <%= form.label :room_id, "Room" %>
-    <%= form.collection_select :room_id, Room.all, :id, :location, { prompt: "Select a room" }, { class: "form-control",id: "room_select" } %>
+    <%= form.collection_select :room_id, Room.all, :id, :location, { prompt: "Select a room" }, { class: "form-control", id: "room_select" } %>
   </div>
-
 
   <div>
     <%= form.label :category, "Category:", style: "display: block" %>
@@ -55,28 +28,27 @@
 
   <div>
     <%= form.label :date, style: "display: block" %>
-    <%= form.date_field :date %>
+    <%= form.date_field :date, min: Date.today %> <!-- Prevent selecting a date in the past -->
   </div>
 
   <div>
     <%= form.label :start_time, "Start Time", style: "display: block" %>
-    <%= form.time_select :start_time, {}, {class: "form-control"} %>
+    <%= form.time_select :start_time, min: Time.current.strftime("%H:%M") %> <!-- Prevent selecting a time in the past -->
   </div>
 
   <div>
     <%= form.label :end_time, "End Time", style: "display: block" %>
-    <%= form.time_select :end_time, {}, {class: "form-control"} %>
+    <%= form.time_select :end_time, {}, { class: "form-control" } %>
   </div>
-
 
   <div>
     <%= form.label :ticket_price, style: "display: block" %>
-    <%= form.text_field :ticket_price %>
+    <%= form.number_field :ticket_price, min: 0 %> <!-- Prevent entry of negative values -->
   </div>
 
   <div>
     <%= form.label :number_of_seats_left, style: "display: block" %>
-    <%= form.number_field :number_of_seats_left, id: "room_capacity", max: "YOUR_UPPER_LIMIT" %>
+    <%= form.number_field :number_of_seats_left, min: 0 %> <!-- Prevent entry of negative values -->
   </div>
 
   <br>

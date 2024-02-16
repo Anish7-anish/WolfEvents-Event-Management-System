@@ -4,7 +4,9 @@ class ApplicationController < ActionController::Base
 
   def current_user
     if session[:user_id]
-      @current_user ||= Attendee.find(session[:user_id])
+      @current_user ||= Attendee.find_by(id: session[:user_id])
+    elsif session[:user_email]
+      @current_user ||= Attendee.find_by(email: session[:user_email])
     else
       @current_user = nil
     end

@@ -4,10 +4,26 @@ class Event < ApplicationRecord
   has_many :reviews, dependent: :destroy
   validate :check_room_availability
 
+  validates :date, presence: true
+  validates :start_time, presence: true
+  validates :ticket_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :number_of_seats_left, presence: true, numericality: { greater_than_or_equal_to: 0 }
+
+  validate :date_cannot_be_in_the_past
+  validate :start_time_cannot_be_in_the_past
+
   def check_room_availability
     if room_id && overlaps_with_other_events?
       errors.add(:base, "The selected room is not available during this time slot")
     end
+  end
+
+  def date_cannot_be_in_the_past
+    errors.add(:date, "can't be in the past") if date.present? && date < Date.today
+  end
+
+  def start_time_cannot_be_in_the_past
+    errors.add(:start_time, "can't be in the past") if start_time.present? && start_time < Time.now
   end
 
   def overlaps_with_other_events?
