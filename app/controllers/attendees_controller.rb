@@ -56,18 +56,22 @@ class AttendeesController < ApplicationController
     EventTicket.where("attendee_id=?", @attendee.id ).limit(5000).delete_all
     Review.where("attendee_id=?", @attendee.id ).limit(5000).delete_all
 
-    Attendee.delete(@attendee.id)
-    session[:user_id] = nil
-    if current_user && current_user.is_admin
-      respond_to do |format|
-        format.html { redirect_to attendees_url, notice: "Attendee was successfully destroyed." }
-        format.json { head :no_content }
-      end
-    else
-      respond_to do |format|
-        format.html { redirect_to root_path, notice: "Account deleted successfully." }
-        format.json { head :no_content }
-      end
+    # Only clear session if the current user is the attendee being destroyed and is not an admin
+    if current_user == @attendee && !current_user.is_admin
+      session[:user_id] = nil
+    end
+
+    @attendee.destroy
+
+    respond_to do |format|
+      format.html {
+        if current_user && current_user.is_admin
+          redirect_to attendees_url, notice: "Attendee was successfully destroyed."
+        else
+          redirect_to root_path, notice: "Account deleted successfully."
+        end
+      }
+      format.json { head :no_content }
     end
   end
 

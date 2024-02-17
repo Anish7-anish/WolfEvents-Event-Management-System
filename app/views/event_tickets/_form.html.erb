@@ -4,8 +4,8 @@
       <h2><%= pluralize(event_ticket.errors.count, "error") %> prohibited this event_ticket from being saved:</h2>
 
       <ul>
-        <% event_ticket.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% event_ticket.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
       </ul>
     </div>
@@ -23,29 +23,25 @@
 
   <div>
     <%= form.label :number_of_tickets, style: "display: block" %>
-    <%= form.text_field :number_of_tickets, id: "number_of_tickets" ,value: 1%>
+    <%= form.number_field :number_of_tickets, id: "number_of_tickets", value: 1, min: 1 %>
   </div>
 
   <div>
     <%= form.label :total_cost, style: "display: block" %>
-    <%= form.text_field :total_cost, readonly: true, id: "total_cost",value: params[:event_ticket][:amount].to_d %>
+    <%= form.text_field :total_cost, readonly: true, id: "total_cost", value: event_ticket.amount.to_d %>
   </div>
 
   <script>
+      var numberField = document.getElementById('number_of_tickets');
+      var totalField = document.getElementById('total_cost');
+      var ticketCost = <%= event_ticket.amount.to_d %>;
 
-          var numberField = document.getElementById('number_of_tickets');
-          var totalField = document.getElementById('total_cost');
-          var ticketCost = <%= params[:event_ticket][:amount].to_d %>
-
-              numberField.addEventListener('input', function() {
-                  var numberOfTickets = parseFloat(numberField.value);
-                  var totalCost = numberOfTickets * ticketCost;
-                  totalField.value = totalCost.toFixed(2); // Assuming you want to display the total with two decimal places
-              });
-
+      numberField.addEventListener('input', function() {
+          var numberOfTickets = parseFloat(numberField.value);
+          var totalCost = numberOfTickets * ticketCost;
+          totalField.value = totalCost.toFixed(2); // Assuming you want to display the total with two decimal places
+      });
   </script>
-
-
 
   <div>
     <%= form.submit %>

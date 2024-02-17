@@ -1,5 +1,6 @@
-<%= form_with(model: attendee, url: signup_path) do |form| %>
-  <% if attendee.errors.any? %>
+<%= form_for @attendee, url: (@attendee.new_record? ? signup_path : attendee_path(@attendee)), method: (@attendee.new_record? ? :post : :patch) do |form| %>
+
+<% if attendee.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(attendee.errors.count, "error") %> prohibited this attendee from being saved:</h2>
 
