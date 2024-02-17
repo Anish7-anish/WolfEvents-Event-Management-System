@@ -20,9 +20,10 @@
   <div>
     <%= label_tag :search, "Search by Event Name:" %>
     <%= text_field_tag :search, params[:search] %>
-  </div>
-  <%= submit_tag "Filter and Search" %>
+  </div><br>
+  <%= submit_tag "Filter and Search" %><br>
 <% end %>
+<br>
 
 <table style="border-collapse: collapse; width: 100%;">
   <thead>
@@ -49,6 +50,6 @@
 <% if current_user.is_admin %>
   <%= link_to "New event", new_event_path %>
 <% end %>
-
+<br>
 
 <%= link_to "Back", root_path %>
