@@ -2,7 +2,7 @@
 
 Below is a guide to help you navigate through the system effectively.
 
-### The application is deployed on VCL: 
+### The application is deployed on VCL: http://152.7.176.57:8080/
 
 ### Admin Account
 
@@ -26,10 +26,12 @@ For reviewers with admin privileges, you can log in using the following credenti
 
 5. **My Reviews**: Access reviews written by you in the "My Reviews" section. You can edit your reviews if needed to provide feedback on your event experiences.
 
-6. **Edit Profile**: Update your profile details such as email, password, address, phone number, and card info in the "Edit Profile" section. Note that admin users cannot edit their email addresses.
+6. **All Reviews**: Access reviews written by other attendees and filter using event name, attendee name, attendee email.
 
-7. **Delete Account**: If you wish to delete your account, you can do so in the "Delete Account" section. This action will permanently remove your account along with all associated tickets and reviews. Admin cannot delete their account.
+7. **Edit Profile**: Update your profile details such as email, password, address, phone number, and card info in the "Edit Profile" section. Note that admin users cannot edit their email addresses.
 
-8. **Logout**: Click on the "Logout" button to securely log out of your account and return to the home page.
+8. **Delete Account**: If you wish to delete your account, you can do so in the "Delete Account" section. This action will permanently remove your account along with all associated tickets and reviews. Admin cannot delete their account.
+
+9. **Logout**: Click on the "Logout" button to securely log out of your account and return to the home page.
 
 
