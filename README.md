@@ -16,13 +16,13 @@ For reviewers with admin privileges, you can log in using the following credenti
 
 ### Event Management
 
-2. **All Events**: Explore all available events by clicking on "All Events." You can filter events based on event name, category, or price range to find the perfect one for you.
+2. **All Events**: Explore all available events by clicking on "All Events." You can filter events based on event name, category, or price range to find the perfect one for you. Events can be edited or destroyed when you click on "show".
 
 3. **Booking Tickets**: Once you've found an event you're interested in, click on Book to book tickets. Select the number of tickets you want and proceed to checkout.
 
 ### User Dashboard
 
-4. **Booking History**: Keep track of all your booked tickets in the "Booking History" section. 
+4. **Booking History**: Keep track of all your booked tickets in the "Booking History" section. You can also cancel tickets booked.
 
 5. **My Reviews**: Access reviews written by you in the "My Reviews" section. You can edit your reviews if needed to provide feedback on your event experiences.
 
