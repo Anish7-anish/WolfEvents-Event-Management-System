@@ -34,7 +34,7 @@
   <script>
       var numberField = document.getElementById('number_of_tickets');
       var totalField = document.getElementById('total_cost');
-      var ticketCost = <%= event_ticket.total_cost.to_d %>;
+      var ticketCost = <%= @event_ticket.event.ticket_price.to_d %>;
 
       numberField.addEventListener('input', function() {
           var numberOfTickets = parseFloat(numberField.value);
