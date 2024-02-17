@@ -18,15 +18,16 @@
   <% @reviews.each do |review| %>
     <tr>
       <td><%= review.id %></td>
-      <td><%= review.attendee.id %></td> <!-- Assuming review belongs_to :attendee -->
+      <td><%= review.attendee.id %></td>
       <td><%= review.attendee.name %></td>
       <td><%= review.attendee.email %></td>
-      <td><%= review.event.id %></td> <!-- Assuming review belongs_to :event -->
+      <td><%= review.event.id %></td>
       <td><%= review.event.name %></td>
       <td><%= review.rating %></td>
       <td><%= review.feedback %></td>
       <td>
-        <%= link_to "Show this review", review %>
+        <%= link_to "Show", review %><br>
+        <%= link_to "Edit", edit_review_path(review) %>
       </td>
     </tr>
   <% end %>
