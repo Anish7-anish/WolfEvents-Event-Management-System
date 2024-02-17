@@ -28,13 +28,13 @@
 
   <div>
     <%= form.label :total_cost, style: "display: block" %>
-    <%= form.text_field :total_cost, readonly: true, id: "total_cost", value: event_ticket.amount.to_d %>
+    <%= form.text_field :total_cost, readonly: true, id: "total_cost", value: event_ticket.total_cost.to_d %>
   </div>
 
   <script>
       var numberField = document.getElementById('number_of_tickets');
       var totalField = document.getElementById('total_cost');
-      var ticketCost = <%= event_ticket.amount.to_d %>;
+      var ticketCost = <%= event_ticket.total_cost.to_d %>;
 
       numberField.addEventListener('input', function() {
           var numberOfTickets = parseFloat(numberField.value);
