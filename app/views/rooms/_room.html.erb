@@ -1,9 +1,12 @@
 <tr>
   <td style="border: 1px solid black; padding: 8px;"><%= room.location %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= room.capacity %></td>
-  <% unless defined?(show_link) && !show_link %>
-    <td style="border: 1px solid black; padding: 8px;">
-      <%= link_to "Show this room", room %>
-    </td>
-  <% end %>
+  <td style="border: 1px solid black; padding: 8px;">
+    <%= link_to "Show this room", room %> <br>
+    <% if current_user.is_admin %>
+      <%= link_to "Edit Room", edit_room_path(room) %> <br>
+      <%= link_to "Destroy Room", room, method: :delete, data: { confirm: 'Are you sure?' } %>
+
+    <% end %>
+  </td>
 </tr>

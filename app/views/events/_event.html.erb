@@ -1,4 +1,3 @@
-
 <tr>
   <td style="border: 1px solid black; padding: 8px;"><%= event.id %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.name %></td>
@@ -9,34 +8,27 @@
   <td style="border: 1px solid black; padding: 8px;"><%= event.end_time %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.ticket_price %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.number_of_seats_left %></td>
-
   <% if current_user %>
     <td style="border: 1px solid black; padding: 8px;">
       <% if current_user.is_admin %>
-        <%= link_to "Show", event %><br>
-        <% current_time = DateTime.parse("#{event.date} #{Time.current.strftime('%H:%M:%S')}") %>
-        <% event_start_time = DateTime.parse("#{event.date} #{event.start_time.strftime('%H:%M:%S')}") %>
-        <%current_date= Date.current.strftime("%B %d, %Y") %>
-        <%if(event.date<Date.current)%>
-          <%= link_to "Book", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %>
-        <%elsif(event.date==Date.current && event_start_time<current_time)%>
-          <%= link_to "Book", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %>
-        <%else %>
-          <%= link_to "Book", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %>
-        <%end%>
-        <%# if event_end_time.past? %>
-          <%#=current_date %>
-          <%#= link_to "Book", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %>
-        <%# else %>
-          <%#= link_to "Book", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %>
-        <%# end %>
+        <%= link_to "Show Events", event %> <br>
+
+
+      <% end %>
+      <% current_time = DateTime.parse("#{event.date} #{Time.current.strftime('%H:%M:%S')}") %>
+      <% event_start_time = DateTime.parse("#{event.date} #{event.start_time.strftime('%H:%M:%S')}") %>
+      <% current_date = Date.current.strftime("%B %d, %Y") %>
+      <% if(event.date < Date.current) %>
+        <%= link_to "Book Tickets", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %><br>
+      <% elsif(event.date == Date.current && event_start_time < current_time) %>
+        <%= link_to "Book Tickets", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %><br>
       <% else %>
-        <%= link_to "Book", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %>
-
-    <% end %>
-
-
-      <%#= link_to "Book", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %>
+        <%= link_to "Book Tickets", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %><br>
+      <% end %>
+      <% if current_user.is_admin %>
+        <%= link_to "Edit Events", edit_event_path(event) %> <br>
+        <%= link_to "Destroy Events", event, method: :delete %>
+      <% end %>
     </td>
   <% end %>
 </tr>

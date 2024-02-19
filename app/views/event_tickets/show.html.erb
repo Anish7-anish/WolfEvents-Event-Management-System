@@ -3,7 +3,6 @@
 <%= render @event_ticket %>
 
 <div>
-  <%= link_to "Edit this event ticket", edit_event_ticket_path(@event_ticket) %> |
 
   <% if current_user && current_user.is_admin %>
     <%= link_to "Back to all events", events_path %> |
@@ -18,12 +17,6 @@
 
 
 
-  <% if current_user && current_user.is_admin %>
-    <%= button_to "Destroy this event ticket", @event_ticket, method: :delete %>
-  <%end %>
-  <%if  current_user && !current_user.is_admin%>
-    <%= button_to "Cancel this event ticket", @event_ticket, method: :delete %>
-  <%end %>
 
 
 
