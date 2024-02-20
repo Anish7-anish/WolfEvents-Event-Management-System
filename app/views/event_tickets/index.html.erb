@@ -1,5 +1,5 @@
 <h1>Event tickets</h1>
-<% if @event_tickets %>
+<% if @event_tickets.any? %>
   <table class="eventTicket-table">
     <thead>
     <tr>
@@ -8,10 +8,9 @@
       <th>Date</th>
       <th>Number Of Tickets</th>
       <th>Confirmation Number</th>
-      <th colspan="2">Actions</th> <!-- Adjusted colspan to accommodate the actions -->
+      <th colspan="2">Actions</th>
     </tr>
     </thead>
-
     <tbody>
     <% @event_tickets.each do |event_ticket| %>
       <tr>
@@ -21,13 +20,26 @@
         <td><%= event_ticket.number_of_tickets %></td>
         <td><%= event_ticket.confirmation_number %></td>
         <td>
-          <%= link_to "Show this event ticket", event_ticket %> <br>
+          <%= link_to "Show", event_ticket %> |
+
           <% if current_user && current_user.is_admin %>
-            <%= link_to "Edit", edit_event_ticket_path(event_ticket) %> <br>
-            <%= link_to "Destroy", event_ticket, method: :delete, data: { confirm: 'Are you sure?' } %> <br>
+            <%= link_to "Edit", edit_event_ticket_path(event_ticket) %> |
+            <%= link_to "Destroy", event_ticket, method: :delete, data: { confirm: 'Are you sure?' } %> |
           <% elsif current_user && !current_user.is_admin && current_user.id == event_ticket.attendee_id %>
-            <%= link_to "Edit", edit_event_ticket_path(event_ticket) %> <br>
-            <%= link_to "Cancel the ticket", event_ticket, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%= link_to "Edit", edit_event_ticket_path(event_ticket) %> |
+            <%= link_to "Cancel the ticket", event_ticket, method: :delete, data: { confirm: 'Are you sure?' } %> |
+          <% end %>
+
+          <% if event_ticket.event.category.in?(['Miscellaneous', 'Private']) || event_ticket.event.date > Date.current %>
+            <a href="#" style="color: grey; cursor: not-allowed; text-decoration: none;">Write a Review</a>
+          <% elsif event_ticket.event.end_time < Time.current && event_ticket.event.date == Date.current %>
+            <% if current_user && current_user.is_admin? || current_user && current_user.id == event_ticket.attendee_id %>
+              <%= link_to "Write a Review", new_review_path(event_id: event_ticket.event_id) %>
+            <% else %>
+              <a href="#" style="color: grey; cursor: not-allowed; text-decoration: none;">Write a Review</a>
+            <% end %>
+          <% else %>
+            <%= link_to "Write a Review", new_review_path(event_id: event_ticket.event_id) %>
           <% end %>
         </td>
       </tr>

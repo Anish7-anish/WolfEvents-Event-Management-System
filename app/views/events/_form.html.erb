@@ -1,4 +1,4 @@
-<%= form_with(model: event) do |form| %>
+<%= form_with(model: event, data: { mode: event.persisted? ? 'edit' : 'new' }) do |form| %>
   <script>
       document.addEventListener('turbolinks:load', function() {
           const roomSelect = document.getElementById('room_select');
@@ -6,24 +6,47 @@
 
           if (!roomSelect) return; // Exit if the roomSelect is not present on the page
 
-          roomSelect.addEventListener('change', function() {
-              const selectedRoomId = this.value;
-              if (!selectedRoomId) {
-                  capacityDisplay.value = ''; // Clear capacity if no room is selected
-                  return;
-              }
+          // Function to set the max attribute of the number_of_seats_left field
+          function setMaxCapacity(maxCapacity) {
+              capacityDisplay.setAttribute('max', maxCapacity); // Set max attribute
+          }
 
+          // Function to fetch room details and update the max capacity
+          function updateMaxCapacity(selectedRoomId) {
               fetch(`/rooms/${selectedRoomId}/details`)
                   .then(response => response.json())
                   .then(data => {
-                      capacityDisplay.value = data.capacity || 'N/A';
-                      capacityDisplay.setAttribute('max', data.capacity || ''); // Set max attribute
+                      const maxCapacity = data.capacity || '';
+                      setMaxCapacity(maxCapacity);
                   })
                   .catch(error => console.error('Error fetching room details:', error));
+          }
 
+          // Event listener for when the room selection changes
+          roomSelect.addEventListener('change', function() {
+              const selectedRoomId = this.value;
+              if (!selectedRoomId) {
+                  setMaxCapacity(''); // Clear capacity if no room is selected
+                  return;
+              }
+
+              updateMaxCapacity(selectedRoomId);
           });
-      });
 
+          // Set max capacity based on whether it's a new event or an update
+          const form = document.querySelector('form');
+          if (form.dataset.mode === 'new') {
+              // Set max capacity to room capacity when creating a new event
+              const selectedRoomId = roomSelect.value;
+              if (selectedRoomId) {
+                  updateMaxCapacity(selectedRoomId);
+              }
+          } else if (form.dataset.mode === 'edit') {
+              // Set max capacity to current number of seats left when editing an existing event
+              const currentSeatsLeft = capacityDisplay.value;
+              setMaxCapacity(currentSeatsLeft);
+          }
+      });
   </script>
   <% if event.errors.any? %>
     <div style="color: red">

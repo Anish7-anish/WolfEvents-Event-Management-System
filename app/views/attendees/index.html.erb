@@ -29,14 +29,13 @@
       <td class="cell-credit-info"><%= attendee.credit_card_info %></td>
       <td class="cell-is-admin"><%= attendee.is_admin ? 'Yes' : 'No' %></td>
       <td class="cell-actions">
-        <%= link_to "Show", attendee %>
-      </td>
-      <td class="cell-actions">
+        <%= link_to "Show", attendee %> |
+
+
         <%= link_to "Edit", edit_attendee_path(attendee) %>
-      </td>
-      <td class="cell-actions">
+
         <% if !attendee.is_admin %>
-          <%= button_to "Destroy", attendee, method: :delete, data: { confirm: 'Are you sure?' } %>
+          | <%= link_to "Destroy", attendee, method: :delete, data: { confirm: 'Are you sure?' } %>
         <% end %>
       </td>
     </tr>
