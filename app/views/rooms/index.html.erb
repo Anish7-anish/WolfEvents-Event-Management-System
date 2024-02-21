@@ -8,17 +8,20 @@
     <%= form.date_field :date %>
   </div>
 
-  <div>
+  <div style="display: inline-block; margin-right: 20px;">
     <%= form.label :start_time, "Desired Start Time" %>
     <%= form.time_field :start_time %>
   </div>
 
-  <div>
+  <div style="display: inline-block; margin-right: 20px;">
     <%= form.label :end_time, "Desired End Time" %>
     <%= form.time_field :end_time %>
   </div>
+  <br>
 
-  <%= form.submit "Filter" %>
+  <div>
+    <%= submit_tag "Filter" %>
+  </div>
 <% end %>
 
 <hr>

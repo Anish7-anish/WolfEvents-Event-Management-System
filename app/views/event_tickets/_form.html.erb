@@ -28,8 +28,9 @@
 
   <div>
     <%= form.label :total_cost, style: "display: block" %>
-    <%= form.text_field :total_cost, readonly: true, id: "total_cost", value: event_ticket.total_cost.to_d %>
+    <%= form.text_field :total_cost, readonly: true, id: "total_cost", value: @event_ticket.event.ticket_price.to_d %>
   </div>
+
 
   <script>
       var numberField = document.getElementById('number_of_tickets');
@@ -42,6 +43,7 @@
           totalField.value = totalCost.toFixed(2); // Assuming you want to display the total with two decimal places
       });
   </script>
+
 
   <div>
     <%= form.submit %>

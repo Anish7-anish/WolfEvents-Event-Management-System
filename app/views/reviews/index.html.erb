@@ -5,17 +5,17 @@
   <div>
     <div style="display: inline-block;">
       <%= label_tag :attendee_name, "Search by Attendee Name:" %>
-      <%= text_field_tag :attendee_name, params[:attendee_name], placeholder: "Enter Attendee Name" %>
+      <%= select_tag :attendee_name, options_for_select(Attendee.pluck(:name), params[:attendee_name]), prompt: "Attendee Name" %>
     </div>
 
     <div style="display: inline-block;">
       <%= label_tag :attendee_email, "Search by Attendee Email:" %>
-      <%= text_field_tag :attendee_email, params[:attendee_email], placeholder: "Enter Attendee Email" %>
+      <%= select_tag :attendee_email, options_for_select(Attendee.pluck(:email).uniq, params[:attendee_email]), prompt: "Attendee Email" %>
     </div>
 
     <div style="display: inline-block;">
       <%= label_tag :event_name, "Search by Event Name:" %>
-      <%= text_field_tag :event_name, params[:event_name], placeholder: "Enter Event Name" %>
+      <%= select_tag :event_name, options_for_select(Event.pluck(:name), params[:event_name]), prompt: "Event Name" %>
     </div>
   </div>
 
@@ -31,7 +31,6 @@
     <th>Attendee ID</th>
     <th>Attendee Name</th>
     <th>Attendee Email ID</th>
-    <th>Event ID</th>
     <th>Event Name</th>
     <th>Rating</th>
     <th>Feedback</th>
@@ -45,7 +44,6 @@
       <td><%= review.attendee.id %></td> <!-- Assuming review belongs_to :attendee -->
       <td><%= review.attendee.name %></td>
       <td><%= review.attendee.email %></td>
-      <td><%= review.event.id %></td> <!-- Assuming review belongs_to :event -->
       <td><%= review.event.name %></td>
       <td><%= review.rating %></td>
       <td><%= review.feedback %></td>
