@@ -6,12 +6,15 @@ class Event < ApplicationRecord
   validate :start_time_must_be_in_future
 
   def start_time_must_be_in_future
+    event_start_datetime = DateTime.parse("#{date} #{start_time.strftime('%H:%M:%S')}")
+    event_end_datetime = DateTime.parse("#{date} #{end_time.strftime('%H:%M:%S')}")
+    current_time=DateTime.parse("#{date} #{Time.current.strftime('%H:%M:%S')}")
     return if start_time.blank? || date.blank?
     if(date<Date.current)
       errors.add(:date, "must be in the future")
-    elsif(start_time<Time.current && date == Date.current)
+    elsif(event_start_datetime<current_time && date == Date.current)
       errors.add(:start_time, "must be in the future. Current start time : #{start_time}, but now it's : #{Time.current}")
-    elsif(start_time>end_time)
+    elsif(event_start_datetime>event_end_datetime)
       errors.add(:start_time, "must be less than end time")
     end
   end

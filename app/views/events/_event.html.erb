@@ -3,9 +3,9 @@
   <td style="border: 1px solid black; padding: 8px;"><%= event.name %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.room&.location || "No room assigned" %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.category %></td>
-  <td style="border: 1px solid black; padding: 8px;"><%= event.date %></td>
-  <td style="border: 1px solid black; padding: 8px;"><%= event.start_time %></td>
-  <td style="border: 1px solid black; padding: 8px;"><%= event.end_time %></td>
+  <td style="border: 1px solid black; padding: 8px;"><%= event.date.strftime("%B %d, %Y") %></td>
+  <td style="border: 1px solid black; padding: 8px;"><%= event.start_time.strftime("%I:%M %p") %></td>
+  <td style="border: 1px solid black; padding: 8px;"><%= event.end_time.strftime("%I:%M %p") %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.ticket_price %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.number_of_seats_left %></td>
   <% if current_user %>

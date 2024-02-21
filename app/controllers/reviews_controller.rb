@@ -76,10 +76,16 @@ class ReviewsController < ApplicationController
     # event = Event.find(@review.event_id)
     if admin?
       event = Event.find(@review.event_id)
+      current_time = DateTime.parse("#{event.date} #{Time.current.strftime('%H:%M:%S')}")
+      event_end_time = DateTime.parse("#{event.date} #{event.end_time.strftime('%H:%M:%S')}")
       if event.category.in?(['Miscellaneous', 'Private'])
         redirect_to (request.referer || root_path), alert: "Reviews are not allowed for events in Miscellaneous/Private categories." and return
       end
-      if event.date >= Date.current
+      if event_end_time>current_time && event.date==Date.current
+        redirect_to events_path, alert: "Reviews can only be written for events that have already occurred."
+        return
+      end
+      if event.date > Date.current
         redirect_to events_path, alert: "Reviews can only be written for events that have already occurred."
         return
       end
@@ -138,10 +144,16 @@ class ReviewsController < ApplicationController
 
   def check_event_category
     event = Event.find(params[:event_id])
+    current_time = DateTime.parse("#{event.date} #{Time.current.strftime('%H:%M:%S')}")
+    event_end_time = DateTime.parse("#{event.date} #{event.end_time.strftime('%H:%M:%S')}")
     if event.category.in?(['Miscellaneous', 'Private'])
       redirect_to root_path, alert: "Reviews are not allowed for events in Miscellaneous/Private categories."
     end
-    if event.date >= Date.current
+    if event_end_time>current_time && event.date==Date.current
+      redirect_to events_path, alert: "Reviews can only be written for events that have already occurred."
+      return
+    end
+    if event.date > Date.current
       redirect_to events_path, alert: "Reviews can only be written for events that have already occurred."
       return
     end

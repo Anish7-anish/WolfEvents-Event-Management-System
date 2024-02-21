@@ -21,7 +21,8 @@
         <td><%= event_ticket.confirmation_number %></td>
         <td>
           <%= link_to "Show", event_ticket %> |
-
+          <% current_time = DateTime.parse("#{event_ticket.event.date} #{Time.current.strftime('%H:%M:%S')}") %>
+          <% event_end_time = DateTime.parse("#{event_ticket.event.date} #{event_ticket.event.end_time.strftime('%H:%M:%S')}") %>
           <% if current_user && current_user.is_admin %>
             <%= link_to "Edit", edit_event_ticket_path(event_ticket) %> |
             <%= link_to "Destroy", event_ticket, method: :delete, data: { confirm: 'Are you sure?' } %> |
@@ -32,7 +33,7 @@
 
           <% if event_ticket.event.category.in?(['Miscellaneous', 'Private']) || event_ticket.event.date > Date.current %>
             <a href="#" style="color: grey; cursor: not-allowed; text-decoration: none;">Write a Review</a>
-          <% elsif event_ticket.event.end_time < Time.current && event_ticket.event.date == Date.current %>
+          <% elsif event_end_time < current_time && event_ticket.event.date == Date.current %>
             <% if current_user && current_user.is_admin? || current_user && current_user.id == event_ticket.attendee_id %>
               <%= link_to "Write a Review", new_review_path(event_id: event_ticket.event_id) %>
             <% else %>
