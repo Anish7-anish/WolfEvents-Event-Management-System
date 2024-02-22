@@ -99,10 +99,6 @@ class RoomsController < ApplicationController
     end
   end
 
-
-
-
-
   def details
     room = Room.find(params[:id])
     render json: { capacity: room.capacity }

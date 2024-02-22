@@ -1,8 +1,6 @@
 class Room < ApplicationRecord
   has_many :events
 
-
-
   def self.available_rooms(date, start_time, end_time)
     start_datetime = DateTime.parse("#{date} #{start_time}")
     end_datetime = DateTime.parse("#{date} #{end_time}")

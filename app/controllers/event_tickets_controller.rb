@@ -4,12 +4,9 @@ class EventTicketsController < ApplicationController
   def index
     @event_tickets = EventTicket.all
     attendee_param = params[:attendee_id]
-    if current_user.is_admin or attendee_param == current_user.id.to_s
+    if attendee_param
       @event_tickets = EventTicket.where(attendee_id: attendee_param)
-    else
-      redirect_to root_path, alert: "You are not authorized to view this page."
     end
-
   end
 
   def show
