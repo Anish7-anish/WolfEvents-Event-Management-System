@@ -4,12 +4,13 @@
   <table class="eventTicket-table">
     <thead>
     <tr>
-      <th>Attendee ID</th>
+      <th>Bought By</th>
       <th>Event Name</th>
       <th>Date</th>
       <th>Room</th>
       <th>Number Of Tickets</th>
       <th>Confirmation Number</th>
+      <th>Bought For</th>
       <th colspan="2">Actions</th>
     </tr>
     </thead>
@@ -22,6 +23,7 @@
         <td><%=event_ticket.event.room.location %></td>
         <td><%= event_ticket.number_of_tickets %></td>
         <td><%= event_ticket.confirmation_number %></td>
+        <td><%= event_ticket.buyer&.name || "N/A" %></td>
         <td>
           <%= link_to "Show", event_ticket %> |
           <% current_time = DateTime.parse("#{event_ticket.event.date} #{Time.current.strftime('%H:%M:%S')}") %>

@@ -5,7 +5,7 @@ class EventTicketsController < ApplicationController
     @event_tickets = EventTicket.all
     attendee_param = params[:attendee_id]
     if attendee_param
-      @event_tickets = EventTicket.where(attendee_id: attendee_param)
+      @event_tickets = EventTicket.where("attendee_id = ? OR buyer_id = ?", current_user.id, current_user.id)
     end
   end
 
@@ -19,7 +19,7 @@ class EventTicketsController < ApplicationController
   end
 
   def event_ticket_params
-    params.require(:event_ticket).permit(:attendee_id, :event_id, :confirmation_number, :number_of_tickets, :total_cost)
+    params.require(:event_ticket).permit(:attendee_id, :event_id, :confirmation_number, :number_of_tickets, :total_cost, :buyer_id)
   end
 
   def edit

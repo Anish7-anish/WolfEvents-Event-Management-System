@@ -31,6 +31,11 @@
     <%= form.text_field :total_cost, readonly: true, id: "total_cost", value: @event_ticket.event.ticket_price.to_d %>
   </div>
 
+  <div>
+    <%= form.label :buyer_id , "Ticket Recipient"%>
+    <%= form.collection_select :buyer_id, Attendee.all, :id, :name, { prompt: "Select a User" } %>
+  </div>
+
 
   <script>
       var numberField = document.getElementById('number_of_tickets');
