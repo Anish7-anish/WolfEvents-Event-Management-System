@@ -12,20 +12,20 @@ require 'bcrypt'
 admin_attendee = Attendee.find_or_create_by(email: 'admin@example.com') do |attendee|
   attendee.password_digest = BCrypt::Password.create('password')
   attendee.name = 'Admin User'
-  attendee.phone_number = '1234567890'
+  attendee.phone_number = '+11234567890'
   attendee.address = '123 Admin St, Admin City'
-  attendee.credit_card_info = '123456789012'
+  attendee.credit_card_info = '1234567890123456'
   attendee.is_admin = true
-  attendee.created_at = Time.now
-  attendee.updated_at = Time.now
+  attendee.created_at = Time.current
+  attendee.updated_at = Time.current
 end
 
 puts "Admin user created successfully." unless admin_attendee.new_record?
 
 # Seed data for Attendees
 attendees = Attendee.create([
-                              { email: 'john@example.com', password: 'password', name: 'John Doe', phone_number: '1234567890', address: '123 Main St', credit_card_info: '123456789012', created_at: Time.now, updated_at: Time.now },
-                              { email: 'jane@example.com', password: 'password', name: 'Jane Doe', phone_number: '9876543210', address: '456 Elm St', credit_card_info: '987654321098', created_at: Time.now, updated_at: Time.now }
+                              { email: 'john@example.com', password: 'password', name: 'John Doe', phone_number: '+11234567890', address: '123 Main St', credit_card_info: '1234567890121212', created_at: Time.now, updated_at: Time.now },
+                              { email: 'jane@example.com', password: 'password', name: 'Jane Doe', phone_number: '+19876543210', address: '456 Elm St', credit_card_info: '9876543210981212', created_at: Time.now, updated_at: Time.now }
                             ])
 
 # Seed data for Rooms
