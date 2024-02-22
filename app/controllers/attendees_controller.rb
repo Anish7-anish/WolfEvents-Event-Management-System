@@ -1,4 +1,5 @@
 class AttendeesController < ApplicationController
+  before_action :authorize_admin, only: [:index,:new, :create]
   before_action :set_attendee, only: %i[ show edit update destroy ]
 
   # GET /attendees or /attendees.json
@@ -89,5 +90,11 @@ class AttendeesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def attendee_params
     params.require(:attendee).permit(:email, :password, :name, :phone_number, :address, :credit_card_info, :is_admin)
+  end
+
+  def authorize_admin
+    unless current_user.is_admin?
+      redirect_to root_path, alert: "You are not authorized to access this page."
+    end
   end
 end

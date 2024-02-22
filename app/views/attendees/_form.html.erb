@@ -51,4 +51,7 @@
   <div>
     <%= form.submit %>
   </div>
+  <%if current_user.nil? %>
+    <%= link_to "Alread have an Account? Login", login_path %>
+  <%end %>
 <% end %>

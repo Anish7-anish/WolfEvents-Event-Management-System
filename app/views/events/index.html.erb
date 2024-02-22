@@ -10,7 +10,7 @@
 
   <div>
     <%= label_tag :date, "Date:" %>
-    <%= text_field_tag :date, params[:date] %>
+    <%= date_field_tag :date, params[:date] %>
   </div>
   <div>
     <%= label_tag :price_range, "Price Range:" %>
@@ -18,8 +18,8 @@
     <%= text_field_tag :max_price, params[:max_price], placeholder: "Max" %>
   </div>
   <div>
-    <%= label_tag :search, "Search by Event Name:" %>
-    <%= text_field_tag :search, params[:search] %>
+    <%= label_tag :event_name, "Event Name:" %>
+    <%= select_tag :event_name, options_for_select(Event.pluck(:name).uniq, params[:event_name]), include_blank: true %>
   </div><br>
   <%= submit_tag "Filter and Search" %><br>
 <% end %>
