@@ -2,13 +2,8 @@ class EventTicketsController < ApplicationController
   before_action :set_event_ticket, only: %i[ show edit update destroy ]
 
   def index
-    @event_tickets = EventTicket.all
-    attendee_param = params[:attendee_id]
-    if attendee_param
-      @event_tickets = EventTicket.where("attendee_id = ? OR buyer_id = ?", current_user.id, current_user.id)
-    end
+    @event_tickets = current_user.is_admin ? EventTicket.all : EventTicket.where("attendee_id = ? OR buyer_id = ?", current_user.id, current_user.id)
   end
-
   def show
   end
 
