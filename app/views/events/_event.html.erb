@@ -16,16 +16,22 @@
       <% event_start_time = DateTime.parse("#{event.date} #{event.start_time.strftime('%H:%M:%S')}") %>
       <% current_date = Date.current.strftime("%B %d, %Y") %>
       <% if(event.date < Date.current) %>
-        <%= link_to "Edit", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;"%> |
-        <%= link_to "Destroy", event, method: :delete %> <br>
+        <% if current_user.is_admin %>
+            <%= link_to "Edit", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;"%> |
+            <%= link_to "Destroy", event, method: :delete %> <br>
+        <% end %>
         | <%= link_to "Book Tickets", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %>
       <% elsif(event.date == Date.current && event_start_time < current_time) %>
-        <%= link_to "Edit", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;"%> |
-        <%= link_to "Destroy", event, method: :delete %> <br>
+        <% if current_user.is_admin %>
+          <%= link_to "Edit", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;"%> |
+          <%= link_to "Destroy", event, method: :delete %> <br>
+        <% end %>
         <%= link_to "Book Tickets", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %>
       <% else %>
-        <%= link_to "Edit", edit_event_path(event) %> |
-        <%= link_to "Destroy", event, method: :delete %> <br>
+        <% if current_user.is_admin %>
+            <%= link_to "Edit", edit_event_path(event) %> |
+            <%= link_to "Destroy", event, method: :delete %> <br>
+        <% end %>
         <%= link_to "Book Tickets", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %>
       <% end %>
     </td>

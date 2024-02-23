@@ -1,6 +1,6 @@
 class AttendeesController < ApplicationController
-  before_action :authorize_admin, only: [:index,:new, :create]
   before_action :set_attendee, only: %i[ show edit update destroy ]
+  before_action :require_same_user, only: [:edit, :update, :destroy, :show]
 
   # GET /attendees or /attendees.json
   def index
@@ -92,9 +92,9 @@ class AttendeesController < ApplicationController
     params.require(:attendee).permit(:email, :password, :name, :phone_number, :address, :credit_card_info, :is_admin)
   end
 
-  def authorize_admin
-    unless current_user.is_admin?
-      redirect_to root_path, alert: "You are not authorized to access this page."
+  def require_same_user
+    unless current_user == @attendee or current_user.is_admin?
+      render file: "#{Rails.root}/public/403.html", status: :forbidden, layout: false
     end
   end
 end
