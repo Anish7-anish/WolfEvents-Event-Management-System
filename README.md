@@ -1,4 +1,4 @@
-# WolfEvents Event Management System
+# Wolf Events - Event Management System
 
 Welcome to the WolfEvents Event Management System! This system allows users to manage events, book tickets, and leave reviews for attended events. Admins have additional privileges such as managing users, events, rooms, and reviews.
 
