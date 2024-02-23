@@ -1,5 +1,4 @@
 <tr>
-  <td style="border: 1px solid black; padding: 8px;"><%= event.id %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.name %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.room&.location || "No room assigned" %></td>
   <td style="border: 1px solid black; padding: 8px;"><%= event.category %></td>
@@ -12,17 +11,27 @@
     <td style="border: 1px solid black; padding: 8px;">
       <% if current_user.is_admin %>
         <%= link_to "Show", event %> |
-        <%= link_to "Edit", edit_event_path(event) %> |
-        <%= link_to "Destroy", event, method: :delete %> <br>
       <% end %>
       <% current_time = DateTime.parse("#{event.date} #{Time.current.strftime('%H:%M:%S')}") %>
       <% event_start_time = DateTime.parse("#{event.date} #{event.start_time.strftime('%H:%M:%S')}") %>
       <% current_date = Date.current.strftime("%B %d, %Y") %>
       <% if(event.date < Date.current) %>
+        <% if current_user.is_admin %>
+            <%= link_to "Edit", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;"%> |
+            <%= link_to "Destroy", event, method: :delete %> <br>
+        <% end %>
         | <%= link_to "Book Tickets", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %>
       <% elsif(event.date == Date.current && event_start_time < current_time) %>
+        <% if current_user.is_admin %>
+          <%= link_to "Edit", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;"%> |
+          <%= link_to "Destroy", event, method: :delete %> <br>
+        <% end %>
         <%= link_to "Book Tickets", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %>
       <% else %>
+        <% if current_user.is_admin %>
+            <%= link_to "Edit", edit_event_path(event) %> |
+            <%= link_to "Destroy", event, method: :delete %> <br>
+        <% end %>
         <%= link_to "Book Tickets", new_event_ticket_path(event_ticket: { amount: event.ticket_price, event_id: event.id, attendee_id: current_user.id }) %>
       <% end %>
     </td>

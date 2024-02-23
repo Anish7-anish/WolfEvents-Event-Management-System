@@ -1,14 +1,16 @@
-<h1>Event tickets</h1>
+<p style="color: green"><%= notice %></p>
+<h1>Event Tickets</h1>
 <% if @event_tickets.any? %>
   <table class="eventTicket-table">
     <thead>
     <tr>
-      <th>Attendee ID</th>
+      <th>Bought By</th>
       <th>Event Name</th>
       <th>Date</th>
       <th>Room</th>
       <th>Number Of Tickets</th>
       <th>Confirmation Number</th>
+      <th>Bought For</th>
       <th colspan="2">Actions</th>
     </tr>
     </thead>
@@ -21,6 +23,7 @@
         <td><%=event_ticket.event.room.location %></td>
         <td><%= event_ticket.number_of_tickets %></td>
         <td><%= event_ticket.confirmation_number %></td>
+        <td><%= event_ticket.buyer&.name || "N/A" %></td>
         <td>
           <%= link_to "Show", event_ticket %> |
           <% current_time = DateTime.parse("#{event_ticket.event.date} #{Time.current.strftime('%H:%M:%S')}") %>
@@ -30,19 +33,19 @@
             <%= link_to "Destroy", event_ticket, method: :delete, data: { confirm: 'Are you sure?' } %> |
           <% elsif current_user && !current_user.is_admin && current_user.id == event_ticket.attendee_id %>
             <%= link_to "Edit", edit_event_ticket_path(event_ticket) %> |
-            <%= link_to "Cancel the ticket", event_ticket, method: :delete, data: { confirm: 'Are you sure?' } %> |
+            <%= link_to "Cancel Ticket(s)", event_ticket, method: :delete, data: { confirm: 'Are you sure?' } %> |
           <% end %>
 
           <% if event_ticket.event.category.in?(['Miscellaneous', 'Private']) || event_ticket.event.date > Date.current %>
-            <a href="#" style="color: grey; cursor: not-allowed; text-decoration: none;">Write a Review</a>
+            <%= link_to "Write Review", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %>
           <% elsif event_end_time < current_time && event_ticket.event.date == Date.current %>
             <% if current_user && current_user.is_admin? || current_user && current_user.id == event_ticket.attendee_id %>
-              <%= link_to "Write a Review", new_review_path(event_id: event_ticket.event_id) %>
+              <%= link_to "Write Review", new_review_path(event_id: event_ticket.event_id) %>
             <% else %>
-              <a href="#" style="color: grey; cursor: not-allowed; text-decoration: none;">Write a Review</a>
+              <%= link_to "Write Review", "#", class: "disabled-link", disabled: "disabled", onclick: "return false;", aria_disabled: "true", style: "color: #ccc; cursor: not-allowed; pointer-events: none;" %>
             <% end %>
           <% else %>
-            <%= link_to "Write a Review", new_review_path(event_id: event_ticket.event_id) %>
+            <%= link_to "Write Review", new_review_path(event_id: event_ticket.event_id) %>
           <% end %>
         </td>
       </tr>

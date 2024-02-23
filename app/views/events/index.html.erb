@@ -18,8 +18,8 @@
     <%= text_field_tag :max_price, params[:max_price], placeholder: "Max" %>
   </div>
   <div>
-    <%= label_tag :search, "Search by Event Name:" %>
-    <%= text_field_tag :search, params[:search] %>
+    <%= label_tag :event_name, "Event Name:" %>
+    <%= select_tag :event_name, options_for_select(Event.pluck(:name).uniq, params[:event_name]), include_blank: true %>
   </div><br>
   <%= submit_tag "Filter and Search" %><br>
 <% end %>
@@ -28,7 +28,6 @@
 <table style="border-collapse: collapse; width: 100%;">
   <thead>
   <tr>
-    <th style="border: 1px solid black; padding: 8px;">ID</th>
     <th style="border: 1px solid black; padding: 8px;">Name</th>
     <th style="border: 1px solid black; padding: 8px;">Room</th>
     <th style="border: 1px solid black; padding: 8px;">Category</th>

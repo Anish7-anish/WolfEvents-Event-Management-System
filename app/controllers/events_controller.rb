@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  before_action :require_login
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :require_admin, except: [:index, :show,:ticket_price ]
 
@@ -83,7 +84,7 @@ class EventsController < ApplicationController
     if params[:min_price].present? && params[:max_price].present?
       @events = @events.where(ticket_price: params[:min_price]..params[:max_price])
     end
-    @events = @events.where("name LIKE ?", "%#{params[:search]}%") if params[:search].present?
+    @events = @events.where("name LIKE ?", "%#{params[:event_name]}%") if params[:event_name].present?
   end
 
 

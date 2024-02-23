@@ -35,7 +35,7 @@
 
   <div>
     <%= form.label :phone_number, style: "display: block" %>
-    <%= form.text_field :phone_number, pattern: "[0-9]{10}", title: "Please enter a 10-digit phone number" %>
+    <%= form.text_field :phone_number, placeholder: "+1xxxxxxxxxx", pattern: "\+1\d{10}", title: "Please enter a phone number in the format +1 followed by 10 digits" %>
   </div>
 
   <div>
@@ -45,7 +45,7 @@
 
   <div>
     <%= form.label :credit_card_info, style: "display: block" %>
-    <%= form.text_field :credit_card_info, pattern: "[0-9]{12}", title: "Please enter a 12-digit credit card number" %>
+    <%= form.text_field :credit_card_info, pattern: "[0-9]{16}", title: "Please enter a 16-digit credit card number" %>
   </div>
 
   <div>

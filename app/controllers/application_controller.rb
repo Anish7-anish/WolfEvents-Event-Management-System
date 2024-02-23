@@ -19,4 +19,8 @@ class ApplicationController < ActionController::Base
   def authorized
     redirect_to root_path unless logged_in?
   end
+
+  def require_login
+    redirect_to login_path, alert: "Please log in to continue" unless current_user
+  end
 end

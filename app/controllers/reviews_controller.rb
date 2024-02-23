@@ -65,8 +65,9 @@ class ReviewsController < ApplicationController
   end
   # GET /reviews/1/edit
   def edit
-    unless admin?
-      redirect_to @review, alert: "Only admins can edit reviews."
+    @review = Review.find(params[:id])
+    unless current_user.id == @review.attendee_id || admin?
+      redirect_to reviews_path, alert: "You can only edit your own reviews."
       return
     end
   end

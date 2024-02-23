@@ -1,5 +1,6 @@
 class AttendeesController < ApplicationController
   before_action :set_attendee, only: %i[ show edit update destroy ]
+  before_action :require_admin, except: [:index]
 
   # GET /attendees or /attendees.json
   def index
@@ -52,28 +53,64 @@ class AttendeesController < ApplicationController
   end
 
   # DELETE /attendees/1 or /attendees/1.json
-  def destroy
-    EventTicket.where("attendee_id=?", @attendee.id ).limit(5000).delete_all
-    Review.where("attendee_id=?", @attendee.id ).limit(5000).delete_all
+  # def destroy
+  #   EventTicket.where("attendee_id=?", @attendee.id ).limit(5000).delete_all
+  #   Review.where("attendee_id=?", @attendee.id ).limit(5000).delete_all
+  #
+  #   # Only clear session if the current user is the attendee being destroyed and is not an admin
+  #   if current_user == @attendee && !current_user.is_admin
+  #     session[:user_id] = nil
+  #   end
+  #
+  #   @attendee.destroy
+  #
+  #   respond_to do |format|
+  #     format.html {
+  #       if current_user && current_user.is_admin
+  #         redirect_to attendees_url, notice: "Attendee was successfully destroyed."
+  #       else
+  #         redirect_to root_path, notice: "Account deleted successfully."
+  #       end
+  #     }
+  #     format.json { head :no_content }
+  #   end
+  # end
 
-    # Only clear session if the current user is the attendee being destroyed and is not an admin
+  def destroy
+    # Find all event tickets associated with the attendee being deleted
+    event_tickets = EventTicket.where(attendee_id: @attendee.id)
+
+    # Iterate over each event ticket to update the number of seats left for the associated event
+    event_tickets.each do |event_ticket|
+      event = event_ticket.event
+      event.number_of_seats_left += event_ticket.number_of_tickets
+      event.save
+    end
+
+    # Delete all associated event tickets and reviews
+    EventTicket.where(attendee_id: @attendee.id).delete_all
+    Review.where(attendee_id: @attendee.id).delete_all
+
+    # Clear session if the current user is the attendee being destroyed and is not an admin
     if current_user == @attendee && !current_user.is_admin
       session[:user_id] = nil
     end
 
+    # Destroy the attendee
     @attendee.destroy
 
     respond_to do |format|
-      format.html {
+      format.html do
         if current_user && current_user.is_admin
           redirect_to attendees_url, notice: "Attendee was successfully destroyed."
         else
           redirect_to root_path, notice: "Account deleted successfully."
         end
-      }
+      end
       format.json { head :no_content }
     end
   end
+
 
   def search
     event_name = params[:event_name]
@@ -89,5 +126,9 @@ class AttendeesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def attendee_params
     params.require(:attendee).permit(:email, :password, :name, :phone_number, :address, :credit_card_info, :is_admin)
+  end
+
+  def require_admin
+    redirect_to root_path, alert: "You don't have permission to access this page." unless current_user && current_user.is_admin
   end
 end

@@ -1,5 +1,6 @@
 class RoomsController < ApplicationController
   before_action :set_room, only: [:show, :edit, :update, :destroy]
+  before_action :require_admin, only: [:new, :edit, :update, :destroy, :show]
 
   # GET /rooms or /rooms.json
   def index
@@ -7,8 +8,8 @@ class RoomsController < ApplicationController
 
     if params[:date].present? && params[:start_time].present? && params[:end_time].present?
       desired_date = Date.parse(params[:date])
-      start_time = Time.parse(params[:start_time])
-      end_time = Time.parse(params[:end_time])
+      start_time = Time.zone.parse("#{params[:date]} #{params[:start_time]}")
+      end_time = Time.zone.parse("#{params[:date]} #{params[:end_time]}")
 
       # Find rooms with events that don't match the desired date
       rooms_with_conflicts = Room.joins(:events)
@@ -18,6 +19,7 @@ class RoomsController < ApplicationController
 
       # Find rooms without events
       rooms_without_events = Room.left_outer_joins(:events)
+                                 .where(events: { date: desired_date })
                                  .where(events: { id: nil })
                                  .pluck(:id)
 
@@ -25,7 +27,7 @@ class RoomsController < ApplicationController
       available_room_ids = (rooms_without_events + rooms_with_conflicts).uniq
 
       # Retrieve the available rooms
-      @available_rooms = Room.where(id: available_room_ids)
+      @available_rooms = Room.where.not(id: available_room_ids)
     end
 
     respond_to do |format|
@@ -76,10 +78,6 @@ class RoomsController < ApplicationController
   end
 
   # DELETE /rooms/1 or /rooms/1.json
-  # DELETE /rooms/1 or /rooms/1.json
-  # DELETE /rooms/1 or /rooms/1.json
-  # DELETE /rooms/1 or /rooms/1.json
-  # DELETE /rooms/1 or /rooms/1.json
   def destroy
     begin
       ActiveRecord::Base.transaction do
@@ -99,15 +97,6 @@ class RoomsController < ApplicationController
     end
   end
 
-
-
-
-
-  def details
-    room = Room.find(params[:id])
-    render json: { capacity: room.capacity }
-  end
-
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_room
@@ -119,4 +108,10 @@ class RoomsController < ApplicationController
     params.require(:room).permit(:location, :capacity)
   end
 
+  # Ensure only admin users can access certain actions
+  def require_admin
+    unless current_user && current_user.is_admin
+      redirect_to root_path, alert: "You are not authorized to perform this action."
+    end
+  end
 end

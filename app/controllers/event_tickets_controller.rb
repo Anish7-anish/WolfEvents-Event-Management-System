@@ -2,20 +2,23 @@ class EventTicketsController < ApplicationController
   before_action :set_event_ticket, only: %i[ show edit update destroy ]
 
   def index
-    @event_tickets = EventTicket.all
-    attendee_param = params[:attendee_id]
-    if attendee_param
-      @event_tickets = EventTicket.where(attendee_id: attendee_param)
-    end
+    @event_tickets = current_user.is_admin ? EventTicket.all : EventTicket.where("attendee_id = ? OR buyer_id = ?", current_user.id, current_user.id)
   end
-
   def show
+    @event_ticket = EventTicket.find(params[:id])
+    if !current_user.is_admin && current_user != @event_ticket.attendee
+      redirect_to root_path, alert: "You are not authorized to view this event ticket."
+    end
   end
 
   def new
     @event = Event.find_by_id(event_ticket_params[:event_id])
     params[:event_ticket][:total_cost] = params[:event_ticket][:number_of_tickets].to_i * @event.ticket_price
     @event_ticket = EventTicket.new(event_ticket_params)
+  end
+
+  def event_ticket_params
+    params.require(:event_ticket).permit(:attendee_id, :event_id, :confirmation_number, :number_of_tickets, :total_cost, :buyer_id)
   end
 
   def edit
@@ -98,7 +101,9 @@ class EventTicketsController < ApplicationController
     @event_ticket = EventTicket.find(params[:id])
   end
 
-  def event_ticket_params
-    params.require(:event_ticket).permit(:attendee_id, :event_id, :confirmation_number, :number_of_tickets, :total_cost)
+  def require_admin
+    unless current_user && current_user.is_admin
+      redirect_to root_path, alert: "You are not authorized to view all tickets."
+    end
   end
 end

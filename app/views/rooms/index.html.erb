@@ -5,20 +5,23 @@
 <%= form_with(url: rooms_path, method: "get") do |form| %>
   <div>
     <%= form.label :date, "Desired Date" %>
-    <%= form.date_field :date %>
+    <%= form.date_field :date, required: true %>
   </div>
 
-  <div>
+  <div style="display: inline-block; margin-right: 20px;">
     <%= form.label :start_time, "Desired Start Time" %>
-    <%= form.time_field :start_time %>
+    <%= form.time_field :start_time, required: true %>
   </div>
+
+  <div style="display: inline-block; margin-right: 20px;">
+    <%= form.label :end_time, "Desired End Time" %>
+    <%= form.time_field :end_time, required: true %>
+  </div>
+  <br>
 
   <div>
-    <%= form.label :end_time, "Desired End Time" %>
-    <%= form.time_field :end_time %>
+    <%= submit_tag "Filter", data: { disable_with: "Please wait..." } %>
   </div>
-
-  <%= form.submit "Filter" %>
 <% end %>
 
 <hr>

@@ -1,6 +1,7 @@
 class EventTicket < ApplicationRecord
   belongs_to :attendee
   belongs_to :event
+  belongs_to :buyer, class_name: 'Attendee', foreign_key: 'buyer_id', optional: true
 
   def attendee_name
     attendee.name
