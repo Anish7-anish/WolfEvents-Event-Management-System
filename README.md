@@ -20,7 +20,7 @@ For reviewers with admin privileges, you can log in using the following credenti
 4. **All Attendees**: Click on "All Attendees" to view all attendees signed up for the system. Admin can create, edit, and delete attendees. **Bonus 1** is implemented here. Admin can search for attendees who have signed up for an event by giving event name as input.
 5. **All Event Tickets**: View tickets booked by all users in "All Event Tickets" and edit and delete them.
 6. **Booking History**: View tickets booked by the admin in "Booking History."
-7. **All Rooms**: View, create, edit and destroy rooms where events take place.
+7. **All Rooms**: View, create, edit and destroy rooms where events take place. Admin can also see available rooms by entering date and time.
 8. **My Reviews**: Access reviews written by the admin in "My Reviews." You can view, create, edit and delete reviews.
 9. **All Reviews**: Access reviews written by all users in "All Reviews." You can filter by attendee name, email, and event name. Admin can view, create, edit and delete reviews.
 10. **Edit Profile**: Update admin profile details except for the email address in "Edit Profile."
