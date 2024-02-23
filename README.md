@@ -52,5 +52,9 @@ To install and run this application, follow these steps:
 7.	Start the server using rails server
 8.	Open your web browser and go to http://localhost:3000 to access the application
 
+## Testing 
+To run rspec test case for controller and model 
+
+run 'bundle exec rspec'
 
 
