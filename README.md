@@ -1,37 +1,51 @@
-## WolfEvents Event Management System
+# WolfEvents Event Management System
+
+Welcome to the WolfEvents Event Management System! This system allows users to manage events, book tickets, and leave reviews for attended events. Admins have additional privileges such as managing users, events, rooms, and reviews.
 
 Below is a guide to help you navigate through the system effectively.
 
-### The application is deployed on VCL: http://152.7.176.57:8080/
+## The application is deployed on VCL: http://152.7.176.57:8080/
 
-### Admin Account
+## Admin Account
 
 For reviewers with admin privileges, you can log in using the following credentials:
 - **Email**: admin@example.com
 - **Password**: password
 
-### Getting Started
+## Functionalities
+## Admin:
+1. **Login**: Login using admin credentials.
+2. **All Events**: Click on "All Events" to view, create, edit, and delete events.
+3. **Book Tickets**: In "All Events," click on "Book Tickets" to book tickets for yourself or other users by entering the number of tickets, and choosing the user.
+4. **All Attendees**: Click on "All Attendees" to view all attendees signed up for the system. Admin can create, edit, and delete attendees.
+5. **All Event Tickets**: View tickets booked by all users in "All Event Tickets" and edit and delete them.
+6. **Booking History**: View tickets booked by the admin in "Booking History."
+7. **My Reviews**: Access reviews written by the admin in "My Reviews." You can view, create, edit and delete reviews.
+8. **All Reviews**: Access reviews written by all users in "All Reviews." You can filter by attendee name, email, and event name. Admin can view, create, edit and delete reviews.
+9. **Edit Profile**: Update admin profile details except for the email address in "Edit Profile."
 
-1. **Login or Register**: If you're a new user, click on the "Register" button to create an account. If you already have an account, simply log in using your credentials.
+## Attendee:
+1. **Register**: Register by clicking on "Register" if you are a new user.
+2. **Login**: Log in by clicking on "Login" for existing users by entering valid credentials.
+3. **All Events**: Click on "All Events" to view all available events.
+4. **Book Tickets**: Book tickets for yourself or other users by entering the number of tickets and choosing the user in "Book Tickets."
+5. **Booking History**: View all tickets booked by the attendee in "Booking History."
+6. **My Reviews**: Access reviews written by the attendee in "My Reviews." You can view, create, edit and delete reviews.
+7. **All Reviews**: Access reviews written by all users in "All Reviews." You can filter by attendee name, email, and event name.
+8. **Edit Profile**: Edit your profile details in "Edit Profile."
+9. **Delete Account**: If you wish to delete your account, you can do so in the "Delete Account" section. This action will permanently remove your account along with all associated tickets and reviews.
 
-### Event Management
+## Installation
+To install and run this application, follow these steps:
 
-2. **All Events**: Explore all available events by clicking on "All Events." You can filter events based on event name, category, or price range to find the perfect one for you. Events can be edited or destroyed when you click on "show".
+1.	Clone this repository to your local machine using git clone https://github.ncsu.edu/atoorpu/CSC_ECE_517_Spring2024_Program_2.git
+2.	Change into the project directory using cd CSC_ECE_517_Spring2024_Program_2
+3.	Install the necessary dependencies using: bundle install
+4.	Create the database using rails db:create
+5.	Run the database migrations using rails db:migrate
+6.	Seed the database with sample data using rails db:seed
+7.	Start the server using rails server
+8.	Open your web browser and go to http://localhost:3000 to access the application
 
-3. **Booking Tickets**: Once you've found an event you're interested in, click on Book to book tickets. Select the number of tickets you want and proceed to checkout.
-
-### User Dashboard
-
-4. **Booking History**: Keep track of all your booked tickets in the "Booking History" section. You can also cancel tickets booked.
-
-5. **My Reviews**: Access reviews written by you in the "My Reviews" section. You can edit your reviews if needed to provide feedback on your event experiences.
-
-6. **All Reviews**: Access reviews written by other attendees and filter using event name, attendee name, attendee email.
-
-7. **Edit Profile**: Update your profile details such as email, password, address, phone number, and card info in the "Edit Profile" section. Note that admin users cannot edit their email addresses.
-
-8. **Delete Account**: If you wish to delete your account, you can do so in the "Delete Account" section. This action will permanently remove your account along with all associated tickets and reviews. Admin cannot delete their account.
-
-9. **Logout**: Click on the "Logout" button to securely log out of your account and return to the home page.
 
 
