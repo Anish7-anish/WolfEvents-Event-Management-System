@@ -5,6 +5,10 @@ class EventTicketsController < ApplicationController
     @event_tickets = current_user.is_admin ? EventTicket.all : EventTicket.where("attendee_id = ? OR buyer_id = ?", current_user.id, current_user.id)
   end
   def show
+    @event_ticket = EventTicket.find(params[:id])
+    if !current_user.is_admin && current_user != @event_ticket.attendee
+      redirect_to root_path, alert: "You are not authorized to view this event ticket."
+    end
   end
 
   def new

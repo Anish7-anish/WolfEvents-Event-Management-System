@@ -1,5 +1,6 @@
 class RoomsController < ApplicationController
   before_action :set_room, only: [:show, :edit, :update, :destroy]
+  before_action :require_admin, only: [:edit, :update, :destroy, :show]
 
   # GET /rooms or /rooms.json
   def index
@@ -18,9 +19,9 @@ class RoomsController < ApplicationController
 
       # Find rooms without events
       rooms_without_events = Room.left_outer_joins(:events)
-                               .where(events: { date: desired_date })
-                               .where(events: { id: nil })
-                               .pluck(:id)
+                                 .where(events: { date: desired_date })
+                                 .where(events: { id: nil })
+                                 .pluck(:id)
 
       # Combine the two sets of room IDs
       available_room_ids = (rooms_without_events + rooms_with_conflicts).uniq
@@ -77,10 +78,6 @@ class RoomsController < ApplicationController
   end
 
   # DELETE /rooms/1 or /rooms/1.json
-  # DELETE /rooms/1 or /rooms/1.json
-  # DELETE /rooms/1 or /rooms/1.json
-  # DELETE /rooms/1 or /rooms/1.json
-  # DELETE /rooms/1 or /rooms/1.json
   def destroy
     begin
       ActiveRecord::Base.transaction do
@@ -100,11 +97,6 @@ class RoomsController < ApplicationController
     end
   end
 
-  def details
-    room = Room.find(params[:id])
-    render json: { capacity: room.capacity }
-  end
-
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_room
@@ -116,4 +108,10 @@ class RoomsController < ApplicationController
     params.require(:room).permit(:location, :capacity)
   end
 
+  # Ensure only admin users can access certain actions
+  def require_admin
+    unless current_user && current_user.is_admin
+      redirect_to root_path, alert: "You are not authorized to perform this action."
+    end
+  end
 end
