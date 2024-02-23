@@ -1,6 +1,6 @@
 class RoomsController < ApplicationController
   before_action :set_room, only: [:show, :edit, :update, :destroy]
-  before_action :require_admin, only: [:edit, :update, :destroy, :show]
+  before_action :require_admin, only: [:new, :edit, :update, :destroy, :show]
 
   # GET /rooms or /rooms.json
   def index
